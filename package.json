@@ -1,6 +1,6 @@
 {
   "name": "@anxolin/cow-runner-game",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Cow runner game",
   "main": "dist/lib.js",
   "files": [
