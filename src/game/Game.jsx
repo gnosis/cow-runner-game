@@ -1,9 +1,11 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import 'game/Game.css'
 import sprites1x from 'game/assets/default_100_percent/100-offline-sprite.png'
 import sprites2x from 'game/assets/default_200_percent/200-offline-sprite.png'
+
 import { Runner } from 'game'
+import useKeyPress from 'game/hooks/useKeyPress'
 
 
 // function onDocumentLoad() {
@@ -17,10 +19,9 @@ const STYLES = {
   "fontFamily": "Open Sans, sans-serif"
 }
 
-export default function Game() {
-  useEffect(() => {
-    
-  }, [])
+export default function Game() {  
+  const [showMessageBox, setShowMessageBox] = useState(true)
+
   // Run game when main frame is mounted
   const runGameRef = useCallback(node => {
     if (node !== null) {
@@ -31,14 +32,21 @@ export default function Game() {
       console.log('Runner', runner)
     }
   }, []);
+
+  
+  // Hide box when pressing Space
+  const hideMessageBox = () => setShowMessageBox(false)
+  useKeyPress(['Space', 'ArrowUp'], hideMessageBox);
   
 
   return (
     <>
-      <div id="messageBox" className="sendmessage">
-        <h1 style={ STYLES }>Press Space to start</h1>
-        <div className="niokbutton" onClick={closeMessageBox}></div>
-      </div>
+      {showMessageBox && (
+        <div id="messageBox" className="sendmessage">
+          <h1 style={ STYLES }>Press Space to start</h1>
+          <div className="niokbutton" onClick={hideMessageBox}></div>
+        </div>
+      )}
 
       <div id="main-frame-error" className="interstitial-wrapper" ref={runGameRef}>
         <div id="main-content">
@@ -61,13 +69,11 @@ export default function Game() {
   )
 }
 
-function closeMessageBox(evt) {
-  evt = evt || window.event;
-  if (evt.keyCode == 32) {
-    var box = document.getElementById("messageBox");
-    box.style.visibility = "hidden";
-  }
-}
-
-
-document.onkeydown = closeMessageBox
+// function closeMessageBox(evt) {
+//   evt = evt || window.event;
+//   if (evt.keyCode == 32) {
+//     var box = document.getElementById("messageBox");
+//     box.style.visibility = "hidden";
+//   }
+// }
+// document.onkeydown = closeMessageBox
