@@ -6,7 +6,9 @@
   "repository": "git@github.com:anxolin/cow-runner-game.git",
   "scripts": {
     "start": "NODE_ENV=development webpack serve",
-    "build": "NODE_ENV=production webpack"
+    "build": "npm run build:lib",
+    "build:web": "NODE_ENV=production webpack --config-name web",
+    "build:lib": "NODE_ENV=production webpack --config-name lib"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.3",

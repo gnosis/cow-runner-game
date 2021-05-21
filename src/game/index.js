@@ -15,4 +15,4 @@ export * from './Runner'
 export * from './Trex'
 
 // Components
-export { default } from './Game.jsx'
+export { default } from './CowGame.jsx'

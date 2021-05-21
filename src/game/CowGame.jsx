@@ -19,7 +19,7 @@ const STYLES = {
   "fontFamily": "Open Sans, sans-serif"
 }
 
-export default function Game() {  
+export default function CowGame() {  
   const [showMessageBox, setShowMessageBox] = useState(true)
 
   // Run game when main frame is mounted
