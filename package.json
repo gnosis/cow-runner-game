@@ -9,6 +9,10 @@
     "build": "NODE_ENV=production webpack"
   },
   "devDependencies": {
+    "@babel/cli": "^7.14.3",
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.2",
+    "@babel/preset-react": "^7.13.13",
     "html-webpack-plugin": "^5.3.1",
     "webpack": "^5.37.1",
     "webpack-cli": "^4.7.0",
