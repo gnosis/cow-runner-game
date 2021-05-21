@@ -61,12 +61,3 @@ export function CowGame() {
     </>
   )
 }
-
-// function closeMessageBox(evt) {
-//   evt = evt || window.event;
-//   if (evt.keyCode == 32) {
-//     var box = document.getElementById("messageBox");
-//     box.style.visibility = "hidden";
-//   }
-// }
-// document.onkeydown = closeMessageBox
