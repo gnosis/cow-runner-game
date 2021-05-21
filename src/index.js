@@ -1,11 +1,9 @@
 'use strict';
 
-import 'game/main.css'
-import { Runner } from 'game'
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App.jsx";
 
+console.log('Load app', App, document.getElementById("root"))
 
-function onDocumentLoad() {
-  new Runner('.interstitial-wrapper');
-}
-
-document.addEventListener('DOMContentLoaded', onDocumentLoad);
+ReactDOM.render(<App />, document.getElementById("root"));
