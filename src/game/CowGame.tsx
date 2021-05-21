@@ -2,8 +2,8 @@ import React, { useState, useCallback, CSSProperties } from 'react';
 
 import './CowGame.css'
 import useKeyPress from './hooks/useKeyPress'
-import sprites1x from 'game/assets/default_100_percent/100-offline-sprite.png'
-import sprites2x from 'game/assets/default_200_percent/200-offline-sprite.png'
+import sprites1x from './assets/default_100_percent/100-offline-sprite.png'
+import sprites2x from './assets/default_200_percent/200-offline-sprite.png'
 
 import { Runner } from './model/Runner'
 
