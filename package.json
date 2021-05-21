@@ -8,7 +8,7 @@
   ],
   "repository": "git@github.com:anxolin/cow-runner-game.git",
   "scripts": {
-    "start": "NODE_ENV=development webpack serve",
+    "start": "NODE_ENV=development webpack serve --config-name web",
     "build": "npm run build:lib",
     "build:web": "NODE_ENV=production webpack --config-name web",
     "build:lib": "NODE_ENV=production webpack --config-name lib",
