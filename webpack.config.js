@@ -2,20 +2,30 @@ const path = require('path');
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const webpackConfig = {  
+const webpackDefaultConfig = {
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: 9000,
   },
-  resolve: { extensions: ["*", ".js", ".jsx"] },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"],
+    modules: [
+      path.resolve(__dirname, 'src'),
+      'node_modules'
+    ],
+  },
   module: {
-     rules: [
+    rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(t|j)sx?$/,
+        use: 'ts-loader',
         exclude: /node_modules/,
-        loader: "babel-loader",
-        options: { presets: ["@babel/env"] }
+      },
+      {
+        test: /\.jsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       },
       {
         test: /\.css$/,
@@ -25,18 +35,16 @@ const webpackConfig = {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
       },
-    ],    
+    ],
   },
-  resolve: {
-    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
-  }
+  devtool: 'inline-source-map'
 }
 
 module.exports = [
   {
-    ...webpackConfig,
+    ...webpackDefaultConfig,
     name: 'web',
-    entry: './src/web.js',
+    entry: './src/web.tsx',
     output: {
       filename: 'web.js',
       path: path.resolve(__dirname, 'dist'),
@@ -48,9 +56,9 @@ module.exports = [
       new webpack.HotModuleReplacementPlugin()
     ]
   }, {
-    ...webpackConfig,
+    ...webpackDefaultConfig,
     name: 'lib',
-    entry: './src/lib.js',
+    entry: './src/game/CowGame.tsx',
     output: {
       filename: 'lib.js',
       path: path.resolve(__dirname, 'dist'),

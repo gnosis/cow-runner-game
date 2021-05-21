@@ -1,25 +1,18 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, CSSProperties } from 'react';
 
-import 'game/Game.css'
+import './CowGame.css'
+import useKeyPress from './hooks/useKeyPress'
 import sprites1x from 'game/assets/default_100_percent/100-offline-sprite.png'
 import sprites2x from 'game/assets/default_200_percent/200-offline-sprite.png'
 
-import { Runner } from 'game'
-import useKeyPress from 'game/hooks/useKeyPress'
+import { Runner } from './model/Runner'
 
-
-// function onDocumentLoad() {
-//   new Runner('.interstitial-wrapper');
-// }
-
-// document.addEventListener('DOMContentLoaded', onDocumentLoad);
-
-const STYLES = {
+const STYLES: CSSProperties = {
   "textAlign": "center",
   "fontFamily": "Open Sans, sans-serif"
 }
 
-export default function CowGame() {  
+export function CowGame() {  
   const [showMessageBox, setShowMessageBox] = useState(true)
 
   // Run game when main frame is mounted
@@ -28,7 +21,7 @@ export default function CowGame() {
       console.log('🐮🐮 Loading Cow Runner 🐮🐮')
 
       // Boot runner
-      const runner = new Runner('.interstitial-wrapper')
+      const runner = new Runner('.interstitial-wrapper', undefined)
       console.log('Runner', runner)
     }
   }, []);
@@ -50,7 +43,7 @@ export default function CowGame() {
 
       <div id="main-frame-error" className="interstitial-wrapper" ref={runGameRef}>
         <div id="main-content">
-          <div className="icon icon-offline" alt=""></div>
+          <div className="icon icon-offline"></div>
         </div>
         <div id="offline-resources">
           <img id="offline-resources-1x" src={sprites1x} />
