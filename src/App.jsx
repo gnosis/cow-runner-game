@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 
 import 'game/main.css'
-// import { Runner } from 'game'
+import { Runner } from 'game'
 
 
 // function onDocumentLoad() {
@@ -15,7 +15,22 @@ const STYLES = {
   "fontFamily": "Open Sans, sans-serif"
 }
 
-export default function App(props) {
+export default function App() {
+  useEffect(() => {
+    
+  }, [])
+  // Run game when main frame is mounted
+  const runGameRef = useCallback(node => {
+    if (node !== null) {
+      console.log('🐮🐮 Loading Cow Runner 🐮🐮')
+
+      // Boot runner
+      const runner = new Runner('.interstitial-wrapper')
+      console.log('Runner', runner)
+    }
+  }, []);
+  
+
   return (
     <>
       <div id="messageBox" className="sendmessage">
@@ -23,7 +38,7 @@ export default function App(props) {
         <div className="niokbutton" onClick={closeMessageBox}></div>
       </div>
 
-      <div id="main-frame-error" className="interstitial-wrapper">
+      <div id="main-frame-error" className="interstitial-wrapper" ref={runGameRef}>
         <div id="main-content">
           <div className="icon icon-offline" alt=""></div>
         </div>
@@ -43,8 +58,6 @@ export default function App(props) {
     </>
   )
 }
-
-console.log('🐮🐮 Loading Cow Runner 🐮🐮')
 
 function closeMessageBox(evt) {
   evt = evt || window.event;
