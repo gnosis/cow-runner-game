@@ -17,7 +17,7 @@ const STYLES = {
   "fontFamily": "Open Sans, sans-serif"
 }
 
-export default function App() {
+export default function Game() {
   useEffect(() => {
     
   }, [])
