@@ -1,4 +1,4 @@
-import { IS_HIDPI } from '.'
+import { IS_HIDPI, FPS } from '.'
 
 /**
 * Horizon Line.

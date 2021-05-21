@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 // extract from chromium source code by @liuwayong
 
-import { createCanvas, Horizon, DistanceMeter, Trex, GameOverPanel, DEFAULT_WIDTH, FPS, IS_HIDPI, IS_MOBILE, IS_IOS, getTimeStamp } from '.'
+import { Horizon, Trex, GameOverPanel, DistanceMeter, DEFAULT_WIDTH, FPS, IS_HIDPI, IS_MOBILE, IS_IOS, getTimeStamp, decodeBase64ToArrayBuffer, createCanvas, checkForCollision, vibrate } from '.'
 
 /**
  * T-Rex runner.
@@ -289,11 +289,11 @@ Runner.prototype = {
             this.audioContext = new AudioContext();
 
             var resourceTemplate =
-                document.getElementById(this.config.RESOURCE_TEMPLATE_ID).content;
+                document.getElementById(this.config.RESOURCE_TEMPLATE_ID);
 
             for (var sound in Runner.sounds) {
                 var soundSrc =
-                    resourceTemplate.getElementById(Runner.sounds[sound]).src;
+                    resourceTemplate.querySelector('#' + Runner.sounds[sound]).src;
                 soundSrc = soundSrc.substr(soundSrc.indexOf(',') + 1);
                 var buffer = decodeBase64ToArrayBuffer(soundSrc);
 

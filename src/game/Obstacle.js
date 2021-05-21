@@ -1,4 +1,4 @@
-import { CollisionBox } from '.'
+import { CollisionBox, getRandomNum, IS_HIDPI, FPS, IS_MOBILE } from '.'
 /**
  * Obstacle.
  * @param {HTMLCanvasCtx} canvasCtx

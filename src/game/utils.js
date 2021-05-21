@@ -1,4 +1,4 @@
-import { IS_IOS } from '.'
+import { IS_IOS, IS_MOBILE, CollisionBox, Trex } from '.'
 
 /**
  * Check for a collision.
@@ -79,7 +79,7 @@ export function createAdjustedCollisionBox(box, adjustment) {
 /**
 * Draw the collision boxes for debug.
 */
-export function drawCollisionBoxes(canvasCtx, tRexBox, obstacleBox) {
+function drawCollisionBoxes(canvasCtx, tRexBox, obstacleBox) {
   canvasCtx.save();
   canvasCtx.strokeStyle = '#f00';
   canvasCtx.strokeRect(tRexBox.x, tRexBox.y, tRexBox.width, tRexBox.height);
@@ -97,7 +97,7 @@ export function drawCollisionBoxes(canvasCtx, tRexBox, obstacleBox) {
 * @param {CollisionBox} obstacleBox
 * @return {boolean} Whether the boxes intersected.
 */
-export function boxCompare(tRexBox, obstacleBox) {
+function boxCompare(tRexBox, obstacleBox) {
   var crashed = false;
   var tRexBoxX = tRexBox.x;
   var tRexBoxY = tRexBox.y;

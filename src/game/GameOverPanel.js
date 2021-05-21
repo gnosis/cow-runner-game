@@ -1,3 +1,5 @@
+import { IS_HIDPI } from '.'
+
 /**
  * Game over panel.
  * @param {!HTMLCanvasElement} canvas
