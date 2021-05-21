@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 export default function useKeypress(keys: string[], action: () => void) {
   useEffect(() => {
     function onKeyup(e: KeyboardEvent) {
-      console.log(`Key up: "${e.key}": `, e)
+      // console.log(`Key up: "${e.key}": `, e)
       if (keys.includes(e.code)) {
         action()
       }

@@ -12,7 +12,8 @@
     "build": "npm run build:lib",
     "build:web": "NODE_ENV=production webpack",
     "build:lib": "tsc",
-    "prepare": "npm run clean && npm run assets && npm run build:lib",
+    "build:all": "npm run clean && npm run assets && npm run build:lib",
+    "prepare": "yarn build:all",
     "clean": "rimraf build",
     "assets": "copyfiles -u 1 src/**/*.png src/**/*.css dist"
   },
