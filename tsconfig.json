@@ -15,7 +15,13 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "declaration": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths",
+        "afterDeclarations": true
+      }
+    ]
   },
   "include": [
     "src/**/*"
