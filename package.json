@@ -1,0 +1,7 @@
+{
+  "name": "cow-runner-game",
+  "version": "0.1.0",
+  "description": "Cow runner game",
+  "main": "index.js",
+  "repository": "git@github.com:anxolin/cow-runner-game.git"
+}
