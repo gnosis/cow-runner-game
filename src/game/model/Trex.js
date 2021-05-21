@@ -6,34 +6,36 @@ import { CollisionBox, FPS, IS_HIDPI, getTimeStamp } from '.'
 * @param {Object} spritePos Positioning within image sprite.
 * @constructor
 */
-export function Trex(canvas, spritePos) {
-  this.canvas = canvas;
-  this.canvasCtx = canvas.getContext('2d');
-  this.spritePos = spritePos;
-  this.xPos = 0;
-  this.yPos = 0;
-  // Position when on the ground.
-  this.groundYPos = 0;
-  this.currentFrame = 0;
-  this.currentAnimFrames = [];
-  this.blinkDelay = 0;
-  this.blinkCount = 0;
-  this.animStartTime = 0;
-  this.timer = 0;
-  this.msPerFrame = 1000 / FPS;
-  this.config = Trex.config;
-  // Current status.
-  this.status = Trex.status.WAITING;
-
-  this.jumping = false;
-  this.ducking = false;
-  this.jumpVelocity = 0;
-  this.reachedMinHeight = false;
-  this.speedDrop = false;
-  this.jumpCount = 0;
-  this.jumpspotX = 0;
-
-  this.init();
+export class Trex {
+  constructor (canvas, spritePos) {
+    this.canvas = canvas;
+    this.canvasCtx = canvas.getContext('2d');
+    this.spritePos = spritePos;
+    this.xPos = 0;
+    this.yPos = 0;
+    // Position when on the ground.
+    this.groundYPos = 0;
+    this.currentFrame = 0;
+    this.currentAnimFrames = [];
+    this.blinkDelay = 0;
+    this.blinkCount = 0;
+    this.animStartTime = 0;
+    this.timer = 0;
+    this.msPerFrame = 1000 / FPS;
+    this.config = Trex.config;
+    // Current status.
+    this.status = Trex.status.WAITING;
+  
+    this.jumping = false;
+    this.ducking = false;
+    this.jumpVelocity = 0;
+    this.reachedMinHeight = false;
+    this.speedDrop = false;
+    this.jumpCount = 0;
+    this.jumpspotX = 0;
+  
+    this.init();
+  }
 };
 
 

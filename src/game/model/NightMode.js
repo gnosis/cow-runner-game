@@ -3,18 +3,20 @@ import { getRandomNum, IS_HIDPI } from '.'
 /**
 * Nightmode shows a moon and stars on the horizon.
 */
-export function NightMode(canvas, spritePos, containerWidth) {
-  this.spritePos = spritePos;
-  this.canvas = canvas;
-  this.canvasCtx = canvas.getContext('2d');
-  this.xPos = containerWidth - 50;
-  this.yPos = 30;
-  this.currentPhase = 0;
-  this.opacity = 0;
-  this.containerWidth = containerWidth;
-  this.stars = [];
-  this.drawStars = false;
-  this.placeStars();
+export class NightMode {
+  constructor (canvas, spritePos, containerWidth) {
+    this.spritePos = spritePos;
+    this.canvas = canvas;
+    this.canvasCtx = canvas.getContext('2d');
+    this.xPos = containerWidth - 50;
+    this.yPos = 30;
+    this.currentPhase = 0;
+    this.opacity = 0;
+    this.containerWidth = containerWidth;
+    this.stars = [];
+    this.drawStars = false;
+    this.placeStars();
+  }
 };
 
 /**

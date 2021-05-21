@@ -2,7 +2,18 @@ const path = require('path');
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const webpackDefaultConfig = {
+module.exports = {
+  entry: './src/web.tsx',
+  output: {
+    filename: 'web.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'src/index.html'
+    }),
+    new webpack.HotModuleReplacementPlugin()
+  ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
@@ -39,30 +50,3 @@ const webpackDefaultConfig = {
   },
   devtool: 'inline-source-map'
 }
-
-module.exports = [
-  {
-    ...webpackDefaultConfig,
-    name: 'web',
-    entry: './src/web.tsx',
-    output: {
-      filename: 'web.js',
-      path: path.resolve(__dirname, 'dist'),
-    },
-    plugins: [
-      new HtmlWebpackPlugin({
-        template: 'src/index.html'
-      }),
-      new webpack.HotModuleReplacementPlugin()
-    ]
-  }, {
-    ...webpackDefaultConfig,
-    name: 'lib',
-    entry: './src/game/CowGame.tsx',
-    output: {
-      filename: 'lib.js',
-      path: path.resolve(__dirname, 'dist'),
-    },
-    plugins: []
-  }
-];

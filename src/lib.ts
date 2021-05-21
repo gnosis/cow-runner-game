@@ -1,3 +1,2 @@
-import { CowGame } from './game/CowGame'
+export { CowGame } from './game/CowGame'
 
-console.log(CowGame)

@@ -12,7 +12,8 @@ import { Horizon, Trex, GameOverPanel, DistanceMeter, DEFAULT_WIDTH, FPS, IS_HID
  * @constructor
  * @export
  */
-export function Runner(outerContainerId, opt_config) {
+export class Runner {
+  constructor (outerContainerId, opt_config) {
     // Singleton
     if (Runner.instance_) {
         return Runner.instance_;
@@ -71,6 +72,7 @@ export function Runner(outerContainerId, opt_config) {
     } else {
         this.loadImages();
     }
+  }
 }
 window['Runner'] = Runner;
 

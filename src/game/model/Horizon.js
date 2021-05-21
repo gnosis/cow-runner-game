@@ -8,26 +8,30 @@ import { Cloud, HorizonLine, NightMode, Obstacle, getRandomNum } from '.'
 * @param {number} gapCoefficient
 * @constructor
 */
-export function Horizon(canvas, spritePos, dimensions, gapCoefficient) {
-  this.canvas = canvas;
-  this.canvasCtx = this.canvas.getContext('2d');
-  this.config = Horizon.config;
-  this.dimensions = dimensions;
-  this.gapCoefficient = gapCoefficient;
-  this.obstacles = [];
-  this.obstacleHistory = [];
-  this.horizonOffsets = [0, 0];
-  this.cloudFrequency = this.config.CLOUD_FREQUENCY;
-  this.spritePos = spritePos;
-  this.nightMode = null;
+export class Horizon {
+  constructor (canvas, spritePos, dimensions, gapCoefficient) {
+    this.canvas = canvas;
+    this.canvasCtx = this.canvas.getContext('2d');
+    this.config = Horizon.config;
+    this.dimensions = dimensions;
+    this.gapCoefficient = gapCoefficient;
+    this.obstacles = [];
+    this.obstacleHistory = [];
+    this.horizonOffsets = [0, 0];
+    this.cloudFrequency = this.config.CLOUD_FREQUENCY;
+    this.spritePos = spritePos;
+    this.nightMode = null;
+  
+    // Cloud
+    this.clouds = [];
+    this.cloudSpeed = this.config.BG_CLOUD_SPEED;
+  
+    // Horizon
+    this.horizonLine = null;
+    this.init();
+  }
 
-  // Cloud
-  this.clouds = [];
-  this.cloudSpeed = this.config.BG_CLOUD_SPEED;
-
-  // Horizon
-  this.horizonLine = null;
-  this.init();
+  
 };
 
 

@@ -1,4 +1,4 @@
-import { getRandomNum, IS_HIDPI, Runner } from '.'
+import { IS_HIDPI, Runner, getRandomNum } from './'
 
 /**
 * Cloud background item.
@@ -7,18 +7,20 @@ import { getRandomNum, IS_HIDPI, Runner } from '.'
 * @param {Object} spritePos Position of image in sprite.
 * @param {number} containerWidth
 */
-export function Cloud(canvas, spritePos, containerWidth) {
-  this.canvas = canvas;
-  this.canvasCtx = this.canvas.getContext('2d');
-  this.spritePos = spritePos;
-  this.containerWidth = containerWidth;
-  this.xPos = containerWidth;
-  this.yPos = 0;
-  this.remove = false;
-  this.cloudGap = getRandomNum(Cloud.config.MIN_CLOUD_GAP,
-      Cloud.config.MAX_CLOUD_GAP);
-
-  this.init();
+export class Cloud {
+  constructor (canvas, spritePos, containerWidth) {
+    this.canvas = canvas;
+    this.canvasCtx = this.canvas.getContext('2d');
+    this.spritePos = spritePos;
+    this.containerWidth = containerWidth;
+    this.xPos = containerWidth;
+    this.yPos = 0;
+    this.remove = false;
+    this.cloudGap = getRandomNum(Cloud.config.MIN_CLOUD_GAP,
+        Cloud.config.MAX_CLOUD_GAP);
+  
+    this.init();
+  }
 };
 
 
