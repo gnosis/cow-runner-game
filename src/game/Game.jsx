@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 
-import 'game/main.css'
+import 'game/Game.css'
 import sprites1x from 'game/assets/default_100_percent/100-offline-sprite.png'
 import sprites2x from 'game/assets/default_200_percent/200-offline-sprite.png'
 import { Runner } from 'game'
