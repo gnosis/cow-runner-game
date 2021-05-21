@@ -1,5 +1,4 @@
-
-
+import { CollisionBox } from '.'
 
 /**
 * T-rex game character.

@@ -1,3 +1,5 @@
+import { Cloud } from '.'
+
 /**
 * Horizon background class.
 * @param {HTMLCanvasElement} canvas

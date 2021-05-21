@@ -1,4 +1,4 @@
-
+import { CollisionBox } from '.'
 /**
  * Obstacle.
  * @param {HTMLCanvasCtx} canvasCtx

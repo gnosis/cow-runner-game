@@ -1,5 +1,10 @@
 'use strict';
 
-import { checkForCollision } from './game/utils'
+import { Runner } from 'game'
 
-console.log('hi there', checkForCollision)
+
+function onDocumentLoad() {
+  new Runner('.interstitial-wrapper');
+}
+
+document.addEventListener('DOMContentLoaded', onDocumentLoad);

@@ -1,3 +1,5 @@
+import { getRandomNum, IS_HIDPI, Runner } from '.'
+
 /**
 * Cloud background item.
 * Similar to an obstacle object but without collision boxes.
