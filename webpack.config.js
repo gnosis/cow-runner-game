@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const webpackConfig = {  
+const webpackDefaultConfig = {  
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
@@ -11,11 +11,16 @@ const webpackConfig = {
   resolve: { extensions: ["*", ".js", ".jsx"] },
   module: {
      rules: [
+      // {
+      //   test: /\.(js|jsx)$/,
+      //   exclude: /node_modules/,
+      //   loader: "babel-loader",
+      //   options: { presets: ["@babel/env"] }
+      // },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.tsx?$/,
+        use: 'ts-loader',
         exclude: /node_modules/,
-        loader: "babel-loader",
-        options: { presets: ["@babel/env"] }
       },
       {
         test: /\.css$/,
@@ -29,14 +34,15 @@ const webpackConfig = {
   },
   resolve: {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
-  }
+  },
+  devtool: 'inline-source-map'
 }
 
 module.exports = [
   {
-    ...webpackConfig,
+    ...webpackDefaultConfig,
     name: 'web',
-    entry: './src/web.js',
+    entry: './src/web.tsx',
     output: {
       filename: 'web.js',
       path: path.resolve(__dirname, 'dist'),
@@ -48,9 +54,9 @@ module.exports = [
       new webpack.HotModuleReplacementPlugin()
     ]
   }, {
-    ...webpackConfig,
+    ...webpackDefaultConfig,
     name: 'lib',
-    entry: './src/lib.js',
+    entry: './src/lib.ts',
     output: {
       filename: 'lib.js',
       path: path.resolve(__dirname, 'dist'),

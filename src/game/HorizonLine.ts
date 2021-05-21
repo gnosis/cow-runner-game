@@ -1,4 +1,4 @@
-import { IS_HIDPI, FPS } from '.'
+import { IS_HIDPI, FPS, Position } from '.'
 
 /**
 * Horizon Line.
@@ -7,7 +7,7 @@ import { IS_HIDPI, FPS } from '.'
 * @param {Object} spritePos Horizon position in sprite.
 * @constructor
 */
-export function HorizonLine(canvas, spritePos) {
+export function HorizonLine(canvas, spritePos: Position) {
   this.spritePos = spritePos;
   this.canvas = canvas;
   this.canvasCtx = canvas.getContext('2d');

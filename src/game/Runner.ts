@@ -5,6 +5,88 @@
 
 import { Horizon, Trex, GameOverPanel, DistanceMeter, DEFAULT_WIDTH, FPS, IS_HIDPI, IS_MOBILE, IS_IOS, getTimeStamp, decodeBase64ToArrayBuffer, createCanvas, checkForCollision, vibrate } from '.'
 
+
+const DEFAULT_CONFIG = {
+  ACCELERATION: 0.001,
+  BG_CLOUD_SPEED: 0.2,
+  BOTTOM_PAD: 10,
+  CLEAR_TIME: 3000,
+  CLOUD_FREQUENCY: 0.5,
+  GAMEOVER_CLEAR_TIME: 750,
+  GAP_COEFFICIENT: 0.6,
+  GRAVITY: 0.6,
+  INITIAL_JUMP_VELOCITY: 12,
+  INVERT_FADE_DURATION: 12000,
+  INVERT_DISTANCE: 700,
+  MAX_BLINK_COUNT: 3,
+  MAX_CLOUDS: 6,
+  MAX_OBSTACLE_LENGTH: 3,
+  MAX_OBSTACLE_DUPLICATION: 2,
+  MAX_SPEED: 13,
+  MIN_JUMP_HEIGHT: 35,
+  MOBILE_SPEED_COEFFICIENT: 1.2,
+  RESOURCE_TEMPLATE_ID: 'audio-resources',
+  SPEED: 6,
+  SPEED_DROP_COEFFICIENT: 3
+}
+
+const LDPI = {
+  CACTUS_LARGE: { x: 332, y: 2 },
+  CACTUS_SMALL: { x: 228, y: 2 },
+  CLOUD: { x: 86, y: 2 },
+  HORIZON: { x: 2, y: 54 },
+  MOON: { x: 484, y: 2 },
+  PTERODACTYL: { x: 134, y: 2 },
+  RESTART: { x: 2, y: 2 },
+  TEXT_SPRITE: { x: 655, y: 2 },
+  TREX: { x: 848, y: 2 },
+  STAR: { x: 645, y: 2 }
+}
+
+const HDPI = {
+  CACTUS_LARGE: { x: 652, y: 2 },
+  CACTUS_SMALL: { x: 446, y: 2 },
+  CLOUD: { x: 166, y: 2 },
+  HORIZON: { x: 2, y: 104 },
+  MOON: { x: 954, y: 2 },
+  PTERODACTYL: { x: 260, y: 2 },
+  RESTART: { x: 2, y: 2 },
+  TEXT_SPRITE: { x: 1294, y: 2 },
+  TREX: { x: 1678, y: 2 },
+  STAR: { x: 1276, y: 2 }
+}
+
+const SOUNDS = {
+  BUTTON_PRESS: 'offline-sound-press',
+  HIT: 'offline-sound-hit',
+  SCORE: 'offline-sound-reached'
+}
+
+const KEY_CODES = {
+  JUMP: { '38': 1, '32': 1 },  // Up, spacebar
+  DUCK: { '40': 1 },  // Down
+  RESTART: { '13': 1 }  // Enter
+}
+
+const EVENTS = {
+  ANIM_END: 'webkitAnimationEnd',
+  CLICK: 'click',
+  KEYDOWN: 'keydown',
+  KEYUP: 'keyup',
+  MOUSEDOWN: 'mousedown',
+  MOUSEUP: 'mouseup',
+  RESIZE: 'resize',
+  TOUCHEND: 'touchend',
+  TOUCHSTART: 'touchstart',
+  VISIBILITY: 'visibilitychange',
+  BLUR: 'blur',
+  FOCUS: 'focus',
+  LOAD: 'load'
+}
+
+type Config = typeof DEFAULT_CONFIG
+
+
 /**
  * T-Rex runner.
  * @param {string} outerContainerId Outer containing element id.
@@ -12,21 +94,53 @@ import { Horizon, Trex, GameOverPanel, DistanceMeter, DEFAULT_WIDTH, FPS, IS_HID
  * @constructor
  * @export
  */
-export function Runner(outerContainerId, opt_config) {
+export class Runner {
+  instance_: Runner
+  outerContainerEl: Element
+  containerEl: HTMLDivElement
+  snackbarEl: any
+  detailsButton: Element | null  
+  canvas: HTMLCanvasElement
+  canvasCtx: CanvasRenderingContext2D
+  currentSpeed: number
+  config: typeof DEFAULT_CONFIG
+  tRex: Trex  
+  spriteDef: typeof HDPI | typeof LDPI
+  audioContext: AudioContext
+  distanceMeter: DistanceMeter
+  distanceRan: number
+  highestScore: number
+  runningTime: number
+  time: number
+  msPerFrame: number
+  obstacles: any[]
+  activated: boolean
+  playing: boolean
+  crashed: boolean
+  paused: boolean
+  inverted: boolean
+  invertTimer: number
+  resizeTimerId_: number | null
+  playCount: number
+  audioBuffer: null
+  soundFx: 
+  
+  static imageSprite: HTMLImageElement | null
+
+  constructor (outerContainerId: string, opt_config: Object) {
+
     // Singleton
-    if (Runner.instance_) {
-        return Runner.instance_;
+    if (this.instance_) {
+      return this.instance_;
     }
-    Runner.instance_ = this;
+    this.instance_ = this;
 
     this.outerContainerEl = document.querySelector(outerContainerId);
     this.containerEl = null;
     this.snackbarEl = null;
     this.detailsButton = this.outerContainerEl.querySelector('#details-button');
 
-    this.config = opt_config || Runner.config;
-
-    this.dimensions = Runner.defaultDimensions;
+    this.config = opt_config ? {...DEFAULT_CONFIG, ...opt_config } : DEFAULT_CONFIG
 
     this.canvas = null;
     this.canvasCtx = null;
@@ -70,156 +184,24 @@ export function Runner(outerContainerId, opt_config) {
         this.setupDisabledRunner();
     } else {
         this.loadImages();
-    }
-}
-window['Runner'] = Runner;
+    }    
+  }
 
 
 
-/**
- * Default game configuration.
- * @enum {number}
- */
-Runner.config = {
-    ACCELERATION: 0.001,
-    BG_CLOUD_SPEED: 0.2,
-    BOTTOM_PAD: 10,
-    CLEAR_TIME: 3000,
-    CLOUD_FREQUENCY: 0.5,
-    GAMEOVER_CLEAR_TIME: 750,
-    GAP_COEFFICIENT: 0.6,
-    GRAVITY: 0.6,
-    INITIAL_JUMP_VELOCITY: 12,
-    INVERT_FADE_DURATION: 12000,
-    INVERT_DISTANCE: 700,
-    MAX_BLINK_COUNT: 3,
-    MAX_CLOUDS: 6,
-    MAX_OBSTACLE_LENGTH: 3,
-    MAX_OBSTACLE_DUPLICATION: 2,
-    MAX_SPEED: 13,
-    MIN_JUMP_HEIGHT: 35,
-    MOBILE_SPEED_COEFFICIENT: 1.2,
-    RESOURCE_TEMPLATE_ID: 'audio-resources',
-    SPEED: 6,
-    SPEED_DROP_COEFFICIENT: 3
-};
-
-
-/**
- * Default dimensions.
- * @enum {string}
- */
-Runner.defaultDimensions = {
-    WIDTH: DEFAULT_WIDTH,
-    HEIGHT: 150
-};
-
-
-/**
- * CSS class names.
- * @enum {string}
- */
-Runner.classes = {
-    CANVAS: 'runner-canvas',
-    CONTAINER: 'runner-container',
-    CRASHED: 'crashed',
-    ICON: 'icon-offline',
-    INVERTED: 'inverted',
-    SNACKBAR: 'snackbar',
-    SNACKBAR_SHOW: 'snackbar-show',
-    TOUCH_CONTROLLER: 'controller'
-};
-
-
-/**
- * Sprite definition layout of the spritesheet.
- * @enum {Object}
- */
-Runner.spriteDefinition = {
-    LDPI: {
-        CACTUS_LARGE: { x: 332, y: 2 },
-        CACTUS_SMALL: { x: 228, y: 2 },
-        CLOUD: { x: 86, y: 2 },
-        HORIZON: { x: 2, y: 54 },
-        MOON: { x: 484, y: 2 },
-        PTERODACTYL: { x: 134, y: 2 },
-        RESTART: { x: 2, y: 2 },
-        TEXT_SPRITE: { x: 655, y: 2 },
-        TREX: { x: 848, y: 2 },
-        STAR: { x: 645, y: 2 }
-    },
-    HDPI: {
-        CACTUS_LARGE: { x: 652, y: 2 },
-        CACTUS_SMALL: { x: 446, y: 2 },
-        CLOUD: { x: 166, y: 2 },
-        HORIZON: { x: 2, y: 104 },
-        MOON: { x: 954, y: 2 },
-        PTERODACTYL: { x: 260, y: 2 },
-        RESTART: { x: 2, y: 2 },
-        TEXT_SPRITE: { x: 1294, y: 2 },
-        TREX: { x: 1678, y: 2 },
-        STAR: { x: 1276, y: 2 }
-    }
-};
-
-
-/**
- * Sound FX. Reference to the ID of the audio tag on interstitial page.
- * @enum {string}
- */
-Runner.sounds = {
-    BUTTON_PRESS: 'offline-sound-press',
-    HIT: 'offline-sound-hit',
-    SCORE: 'offline-sound-reached'
-};
-
-
-/**
- * Key code mapping.
- * @enum {Object}
- */
-Runner.keycodes = {
-    JUMP: { '38': 1, '32': 1 },  // Up, spacebar
-    DUCK: { '40': 1 },  // Down
-    RESTART: { '13': 1 }  // Enter
-};
-
-
-/**
- * Runner event names.
- * @enum {string}
- */
-Runner.events = {
-    ANIM_END: 'webkitAnimationEnd',
-    CLICK: 'click',
-    KEYDOWN: 'keydown',
-    KEYUP: 'keyup',
-    MOUSEDOWN: 'mousedown',
-    MOUSEUP: 'mouseup',
-    RESIZE: 'resize',
-    TOUCHEND: 'touchend',
-    TOUCHSTART: 'touchstart',
-    VISIBILITY: 'visibilitychange',
-    BLUR: 'blur',
-    FOCUS: 'focus',
-    LOAD: 'load'
-};
-
-
-Runner.prototype = {
     /**
      * Whether the easter egg has been disabled. CrOS enterprise enrolled devices.
      * @return {boolean}
      */
-    isDisabled: function () {
+    isDisabled() {
         // return loadTimeData && loadTimeData.valueExists('disabledEasterEgg');
         return false;
-    },
+    }
 
     /**
      * For disabled instances, set up a snackbar with the disabled message.
      */
-    setupDisabledRunner: function () {
+     setupDisabledRunner() {
         this.containerEl = document.createElement('div');
         this.containerEl.className = Runner.classes.SNACKBAR;
         this.containerEl.textContent = loadTimeData.getValue('disabledEasterEgg');
@@ -232,14 +214,14 @@ Runner.prototype = {
                 document.querySelector('.icon').classList.add('icon-disabled');
             }
         }.bind(this));
-    },
+    }
 
     /**
      * Setting individual settings for debugging.
      * @param {string} setting
      * @param {*} value
      */
-    updateConfigSetting: function (setting, value) {
+     updateConfigSetting(setting: keyof Config, value: number) {
         if (setting in this.config && value != undefined) {
             this.config[setting] = value;
 
@@ -257,18 +239,18 @@ Runner.prototype = {
                     break;
             }
         }
-    },
+    }
 
     /**
      * Cache the appropriate image sprite from the page and get the sprite sheet
      * definition.
      */
-    loadImages: function () {
+     loadImages() {
         if (IS_HIDPI) {
-            Runner.imageSprite = document.getElementById('offline-resources-2x');
+            Runner.imageSprite = document.getElementById('offline-resources-2x') as HTMLImageElement;
             this.spriteDef = Runner.spriteDefinition.HDPI;
         } else {
-            Runner.imageSprite = document.getElementById('offline-resources-1x');
+            Runner.imageSprite = document.getElementById('offline-resources-1x') as HTMLImageElement;
             this.spriteDef = Runner.spriteDefinition.LDPI;
         }
 
@@ -279,12 +261,12 @@ Runner.prototype = {
             Runner.imageSprite.addEventListener(Runner.events.LOAD,
                 this.init.bind(this));
         }
-    },
+    }
 
     /**
      * Load and decode base 64 encoded sounds.
      */
-    loadSounds: function () {
+     loadSounds() {
         if (!IS_IOS) {
             this.audioContext = new AudioContext();
 
@@ -303,13 +285,13 @@ Runner.prototype = {
                 }.bind(this, sound));
             }
         }
-    },
+    }
 
     /**
      * Sets the game speed. Adjust the speed accordingly if on a smaller screen.
      * @param {number} opt_speed
      */
-    setSpeed: function (opt_speed) {
+    setSpeed(opt_speed: number) {
         var speed = opt_speed || this.currentSpeed;
 
         // Reduce the speed on smaller mobile screens.
@@ -320,12 +302,12 @@ Runner.prototype = {
         } else if (opt_speed) {
             this.currentSpeed = opt_speed;
         }
-    },
+    }
 
     /**
      * Game initialiser.
      */
-    init: function () {
+     init() {
         // Hide the static icon.
         document.querySelector('.' + Runner.classes.ICON).style.visibility =
             'hidden';
@@ -337,8 +319,8 @@ Runner.prototype = {
         this.containerEl.className = Runner.classes.CONTAINER;
 
         // Player canvas container.
-        this.canvas = createCanvas(this.containerEl, this.dimensions.WIDTH,
-            this.dimensions.HEIGHT, Runner.classes.PLAYER);
+        this.canvas = createCanvas(this.containerEl, Runner.dimensions.WIDTH,
+            Runner.dimensions.HEIGHT, Runner.classes.PLAYER);
 
         this.canvasCtx = this.canvas.getContext('2d');
         this.canvasCtx.fillStyle = '#f7f7f7';
@@ -367,12 +349,12 @@ Runner.prototype = {
 
         window.addEventListener(Runner.events.RESIZE,
             this.debounceResize.bind(this));
-    },
+    }
 
     /**
      * Create the touch controller. A div that covers whole screen.
      */
-    createTouchController: function () {
+    createTouchController() {
         this.touchController = document.createElement('div');
         this.touchController.className = Runner.classes.TOUCH_CONTROLLER;
         this.outerContainerEl.appendChild(this.touchController);
@@ -381,7 +363,7 @@ Runner.prototype = {
     /**
      * Debounce the resize event.
      */
-    debounceResize: function () {
+     debounceResize() {
         if (!this.resizeTimerId_) {
             this.resizeTimerId_ =
                 setInterval(this.adjustDimensions.bind(this), 250);
@@ -391,7 +373,7 @@ Runner.prototype = {
     /**
      * Adjust game space dimensions on resize.
      */
-    adjustDimensions: function () {
+     adjustDimensions() {
         clearInterval(this.resizeTimerId_);
         this.resizeTimerId_ = null;
 
@@ -429,13 +411,13 @@ Runner.prototype = {
                 this.gameOverPanel.draw();
             }
         }
-    },
+    }
 
     /**
      * Play the game intro.
      * Canvas container width expands out to the full width.
      */
-    playIntro: function () {
+     playIntro() {
         if (!this.activated && !this.crashed) {
             this.playingIntro = true;
             this.tRex.playingIntro = true;
@@ -466,13 +448,13 @@ Runner.prototype = {
         } else if (this.crashed) {
             this.restart();
         }
-    },
+    }
 
 
     /**
      * Update the game status to started.
      */
-    startGame: function () {
+     startGame() {
         this.runningTime = 0;
         this.playingIntro = false;
         this.tRex.playingIntro = false;
@@ -488,17 +470,17 @@ Runner.prototype = {
 
         window.addEventListener(Runner.events.FOCUS,
             this.onVisibilityChange.bind(this));
-    },
+    }
 
-    clearCanvas: function () {
+    clearCanvas() {
         this.canvasCtx.clearRect(0, 0, this.dimensions.WIDTH,
             this.dimensions.HEIGHT);
-    },
+    }
 
     /**
      * Update the game frame and schedules the next one.
      */
-    update: function () {
+     update() {
         this.updatePending = false;
 
         var now = getTimeStamp();
@@ -578,12 +560,12 @@ Runner.prototype = {
             this.tRex.update(deltaTime);
             this.scheduleNextUpdate();
         }
-    },
+    }
 
     /**
      * Event handler.
      */
-    handleEvent: function (e) {
+     handleEvent(e) {
         return (function (evtType, events) {
             switch (evtType) {
                 case events.KEYDOWN:
@@ -598,12 +580,12 @@ Runner.prototype = {
                     break;
             }
         }.bind(this))(e.type, Runner.events);
-    },
+    }
 
     /**
      * Bind relevant key / mouse / touch listeners.
      */
-    startListening: function () {
+     startListening() {
         // Keys.
         document.addEventListener(Runner.events.KEYDOWN, this);
         document.addEventListener(Runner.events.KEYUP, this);
@@ -618,12 +600,12 @@ Runner.prototype = {
             document.addEventListener(Runner.events.MOUSEDOWN, this);
             document.addEventListener(Runner.events.MOUSEUP, this);
         }
-    },
+    }
 
     /**
      * Remove all listeners.
      */
-    stopListening: function () {
+     stopListening() {
         document.removeEventListener(Runner.events.KEYDOWN, this);
         document.removeEventListener(Runner.events.KEYUP, this);
 
@@ -635,13 +617,13 @@ Runner.prototype = {
             document.removeEventListener(Runner.events.MOUSEDOWN, this);
             document.removeEventListener(Runner.events.MOUSEUP, this);
         }
-    },
+    }
 
     /**
      * Process keydown.
      * @param {Event} e
      */
-    onKeyDown: function (e) {
+     onKeyDown(e: Event) {
         // Prevent native page scrolling whilst tapping on mobile.
         if (IS_MOBILE && this.playing) {
             e.preventDefault();
@@ -681,14 +663,14 @@ Runner.prototype = {
                 this.tRex.setDuck(true);
             }
         }
-    },
+    }
 
 
     /**
      * Process key up.
      * @param {Event} e
      */
-    onKeyUp: function (e) {
+     onKeyUp(e: Event) {
         var keyCode = String(e.keyCode);
         var isjumpKey = Runner.keycodes.JUMP[keyCode] ||
             e.type == Runner.events.TOUCHEND ||
@@ -713,7 +695,7 @@ Runner.prototype = {
             this.tRex.reset();
             this.play();
         }
-    },
+    }
 
     /**
      * Returns whether the event was a left click on canvas.
@@ -721,33 +703,33 @@ Runner.prototype = {
      * @param {Event} e
      * @return {boolean}
      */
-    isLeftClickOnCanvas: function (e) {
+     isLeftClickOnCanvas(e: Event): boolean {
         return e.button != null && e.button < 2 &&
             e.type == Runner.events.MOUSEUP && e.target == this.canvas;
-    },
+    }
 
     /**
      * RequestAnimationFrame wrapper.
      */
-    scheduleNextUpdate: function () {
+     scheduleNextUpdate() {
         if (!this.updatePending) {
             this.updatePending = true;
             this.raqId = requestAnimationFrame(this.update.bind(this));
         }
-    },
+    }
 
     /**
      * Whether the game is running.
      * @return {boolean}
      */
-    isRunning: function () {
+    isRunning(): boolean {
         return !!this.raqId;
-    },
+    }
 
     /**
      * Game over state.
      */
-    gameOver: function () {
+     gameOver() {
         this.playSound(this.soundFx.HIT);
         vibrate(200);
 
@@ -774,16 +756,16 @@ Runner.prototype = {
 
         // Reset the time clock.
         this.time = getTimeStamp();
-    },
+    }
 
-    stop: function () {
+    stop () {
         this.playing = false;
         this.paused = true;
         cancelAnimationFrame(this.raqId);
         this.raqId = 0;
-    },
+    }
 
-    play: function () {
+    play () {
         if (!this.crashed) {
             this.playing = true;
             this.paused = false;
@@ -791,9 +773,9 @@ Runner.prototype = {
             this.time = getTimeStamp();
             this.update();
         }
-    },
+    }
 
-    restart: function () {
+    restart() {
         if (!this.raqId) {
             this.playCount++;
             this.runningTime = 0;
@@ -811,12 +793,12 @@ Runner.prototype = {
             this.invert(true);
             this.update();
         }
-    },
+    }
 
     /**
      * Pause the game if the tab is not in focus.
      */
-    onVisibilityChange: function (e) {
+     onVisibilityChange(e: Event) {
         if (document.hidden || document.webkitHidden || e.type == 'blur' ||
             document.visibilityState != 'visible') {
             this.stop();
@@ -824,26 +806,26 @@ Runner.prototype = {
             this.tRex.reset();
             this.play();
         }
-    },
+    }
 
     /**
      * Play a sound.
      * @param {SoundBuffer} soundBuffer
      */
-    playSound: function (soundBuffer) {
+     playSound(soundBuffer: SoundBuffer) {
         if (soundBuffer) {
             var sourceNode = this.audioContext.createBufferSource();
             sourceNode.buffer = soundBuffer;
             sourceNode.connect(this.audioContext.destination);
             sourceNode.start(0);
         }
-    },
+    }
 
     /**
      * Inverts the current page / canvas colors.
      * @param {boolean} Whether to reset colors.
      */
-    invert: function (reset) {
+     invert(reset: boolean) {
         if (reset) {
             document.body.classList.toggle(Runner.classes.INVERTED, false);
             this.invertTimer = 0;
@@ -853,50 +835,101 @@ Runner.prototype = {
                 this.invertTrigger);
         }
     }
-};
 
 
-/**
- * Updates the canvas size taking into
- * account the backing store pixel ratio and
- * the device pixel ratio.
- *
- * See article by Paul Lewis:
- * http://www.html5rocks.com/en/tutorials/canvas/hidpi/
- *
- * @param {HTMLCanvasElement} canvas
- * @param {number} opt_width
- * @param {number} opt_height
- * @return {boolean} Whether the canvas was scaled.
- */
-Runner.updateCanvasScaling = function (canvas, opt_width, opt_height) {
-    var context = canvas.getContext('2d');
+    /**
+     * Updates the canvas size taking into
+     * account the backing store pixel ratio and
+     * the device pixel ratio.
+     *
+     * See article by Paul Lewis:
+     * http://www.html5rocks.com/en/tutorials/canvas/hidpi/
+     *
+     * @param {HTMLCanvasElement} canvas
+     * @param {number} opt_width
+     * @param {number} opt_height
+     * @return {boolean} Whether the canvas was scaled.
+     */
+    static updateCanvasScaling(canvas: HTMLCanvasElement, opt_width: number, opt_height: number): boolean {
+      var context = canvas.getContext('2d');
 
-    // Query the various pixel ratios
-    var devicePixelRatio = Math.floor(window.devicePixelRatio) || 1;
-    var backingStoreRatio = Math.floor(context.webkitBackingStorePixelRatio) || 1;
-    var ratio = devicePixelRatio / backingStoreRatio;
+      // Query the various pixel ratios
+      var devicePixelRatio = Math.floor(window.devicePixelRatio) || 1;
+      var backingStoreRatio = Math.floor(context.webkitBackingStorePixelRatio) || 1;
+      var ratio = devicePixelRatio / backingStoreRatio;
 
-    // Upscale the canvas if the two ratios don't match
-    if (devicePixelRatio !== backingStoreRatio) {
-        var oldWidth = opt_width || canvas.width;
-        var oldHeight = opt_height || canvas.height;
+      // Upscale the canvas if the two ratios don't match
+      if (devicePixelRatio !== backingStoreRatio) {
+          var oldWidth = opt_width || canvas.width;
+          var oldHeight = opt_height || canvas.height;
 
-        canvas.width = oldWidth * ratio;
-        canvas.height = oldHeight * ratio;
+          canvas.width = oldWidth * ratio;
+          canvas.height = oldHeight * ratio;
 
-        canvas.style.width = oldWidth + 'px';
-        canvas.style.height = oldHeight + 'px';
+          canvas.style.width = oldWidth + 'px';
+          canvas.style.height = oldHeight + 'px';
 
-        // Scale the context to counter the fact that we've manually scaled
-        // our canvas element.
-        context.scale(ratio, ratio);
-        return true;
-    } else if (devicePixelRatio == 1) {
-        // Reset the canvas width / height. Fixes scaling bug when the page is
-        // zoomed and the devicePixelRatio changes accordingly.
-        canvas.style.width = canvas.width + 'px';
-        canvas.style.height = canvas.height + 'px';
+          // Scale the context to counter the fact that we've manually scaled
+          // our canvas element.
+          context.scale(ratio, ratio);
+          return true;
+      } else if (devicePixelRatio == 1) {
+          // Reset the canvas width / height. Fixes scaling bug when the page is
+          // zoomed and the devicePixelRatio changes accordingly.
+          canvas.style.width = canvas.width + 'px';
+          canvas.style.height = canvas.height + 'px';
+      }
+      return false;
     }
-    return false;
-};
+
+  /**
+   * CSS class names.
+   * @enum {string}
+   */
+   static classes = {
+    CANVAS: 'runner-canvas',
+    CONTAINER: 'runner-container',
+    CRASHED: 'crashed',
+    ICON: 'icon-offline',
+    INVERTED: 'inverted',
+    SNACKBAR: 'snackbar',
+    SNACKBAR_SHOW: 'snackbar-show',
+    TOUCH_CONTROLLER: 'controller'
+  }
+
+  static dimensions = {
+    WIDTH: DEFAULT_WIDTH,
+    HEIGHT: 150
+  }  
+
+  /**
+   * Sprite definition layout of the spritesheet.
+   * @enum {Object}
+   */
+  static spriteDefinition = {
+    LDPI,
+    HDPI
+  };
+
+    /**
+    * Sound FX. Reference to the ID of the audio tag on interstitial page.
+    * @enum {string}
+    */
+    static sounds = SOUNDS
+
+
+    /**
+     * Key code mapping.
+     * @enum {Object}
+     */
+    static keycodes = KEY_CODES
+
+    /**
+     * Runner event names.
+     * @enum {string}
+     */
+    static events = EVENTS
+
+}
+
+window.Runner = Runner;

@@ -1,9 +1,9 @@
-import { getRandomNum, IS_HIDPI } from '.'
+import { getRandomNum, IS_HIDPI, Position } from '.'
 
 /**
 * Nightmode shows a moon and stars on the horizon.
 */
-export function NightMode(canvas, spritePos, containerWidth) {
+export function NightMode(canvas, spritePos: Position, containerWidth) {
   this.spritePos = spritePos;
   this.canvas = canvas;
   this.canvasCtx = canvas.getContext('2d');

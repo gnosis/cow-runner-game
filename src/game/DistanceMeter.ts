@@ -1,4 +1,4 @@
-import { IS_HIDPI } from '.'
+import { IS_HIDPI, Runner, Position } from '.'
 
 /**
 * Handles displaying the distance meter.
@@ -7,78 +7,78 @@ import { IS_HIDPI } from '.'
 * @param {number} canvasWidth
 * @constructor
 */
-export function DistanceMeter(canvas, spritePos, canvasWidth) {
-  this.canvas = canvas;
-  this.canvasCtx = canvas.getContext('2d');
-  this.image = Runner.imageSprite;
-  this.spritePos = spritePos;
-  this.x = 0;
-  this.y = 5;
+export class DistanceMeter {
+  canvas: HTMLCanvasElement
+  canvasCtx: CanvasRenderingContext2D
+  image: HTMLImageElement
 
-  this.currentDistance = 0;
-  this.maxScore = 0;
-  this.highScore = 0;
-  this.container = null;
+  constructor (canvas, spritePos: Position, canvasWidth) {
+    this.canvas = canvas;
+    this.canvasCtx = canvas.getContext('2d');
+    this.image = Runner.imageSprite;
+    this.spritePos = spritePos;
+    this.x = 0;
+    this.y = 5;
+  
+    this.currentDistance = 0;
+    this.maxScore = 0;
+    this.highScore = 0;
+    this.container = null;
+  
+    this.digits = [];
+    this.acheivement = false;
+    this.defaultString = '';
+    this.flashTimer = 0;
+    this.flashIterations = 0;
+    this.invertTrigger = false;
+  
+    this.config = DistanceMeter.config;
+    this.maxScoreUnits = this.config.MAX_DISTANCE_UNITS;
+    this.init(canvasWidth);
+  }
 
-  this.digits = [];
-  this.acheivement = false;
-  this.defaultString = '';
-  this.flashTimer = 0;
-  this.flashIterations = 0;
-  this.invertTrigger = false;
+  /**
+  * @enum {number}
+  */
+  static dimensions = {
+    WIDTH: 10,
+    HEIGHT: 13,
+    DEST_WIDTH: 11
+  };
 
-  this.config = DistanceMeter.config;
-  this.maxScoreUnits = this.config.MAX_DISTANCE_UNITS;
-  this.init(canvasWidth);
-};
+  /**
+  * Y positioning of the digits in the sprite sheet.
+  * X position is always 0.
+  * @type {Array<number>}
+  */
+  static yPos = [0, 13, 27, 40, 53, 67, 80, 93, 107, 120];
 
+  /**
+  * Distance meter config.
+  * @enum {number}
+  */
+  static config = {
+    // Number of digits.
+    MAX_DISTANCE_UNITS: 5,
 
-/**
-* @enum {number}
-*/
-DistanceMeter.dimensions = {
-  WIDTH: 10,
-  HEIGHT: 13,
-  DEST_WIDTH: 11
-};
+    // Distance that causes achievement animation.
+    ACHIEVEMENT_DISTANCE: 100,
 
+    // Used for conversion from pixel distance to a scaled unit.
+    COEFFICIENT: 0.025,
 
-/**
-* Y positioning of the digits in the sprite sheet.
-* X position is always 0.
-* @type {Array<number>}
-*/
-DistanceMeter.yPos = [0, 13, 27, 40, 53, 67, 80, 93, 107, 120];
+    // Flash duration in milliseconds.
+    FLASH_DURATION: 1000 / 4,
 
+    // Flash iterations for achievement animation.
+    FLASH_ITERATIONS: 3
+  }
 
-/**
-* Distance meter config.
-* @enum {number}
-*/
-DistanceMeter.config = {
-  // Number of digits.
-  MAX_DISTANCE_UNITS: 5,
-
-  // Distance that causes achievement animation.
-  ACHIEVEMENT_DISTANCE: 100,
-
-  // Used for conversion from pixel distance to a scaled unit.
-  COEFFICIENT: 0.025,
-
-  // Flash duration in milliseconds.
-  FLASH_DURATION: 1000 / 4,
-
-  // Flash iterations for achievement animation.
-  FLASH_ITERATIONS: 3
-};
-
-
-DistanceMeter.prototype = {
   /**
    * Initialise the distance meter to '00000'.
    * @param {number} width Canvas width in px.
    */
-  init: function (width) {
+   init(width: number) {
       var maxDistanceStr = '';
 
       this.calcXPos(width);
@@ -90,16 +90,16 @@ DistanceMeter.prototype = {
       }
 
       this.maxScore = parseInt(maxDistanceStr);
-  },
+  }
 
   /**
    * Calculate the xPos in the canvas.
    * @param {number} canvasWidth
    */
-  calcXPos: function (canvasWidth) {
+   calcXPos (canvasWidth: number) {
       this.x = canvasWidth - (DistanceMeter.dimensions.DEST_WIDTH *
           (this.maxScoreUnits + 1));
-  },
+  }
 
   /**
    * Draw a digit to canvas.
@@ -107,7 +107,7 @@ DistanceMeter.prototype = {
    * @param {number} value Digit value 0-9.
    * @param {boolean} opt_highScore Whether drawing the high score.
    */
-  draw: function (digitPos, value, opt_highScore) {
+   draw (digitPos: number, value: number, opt_highScore: boolean) {
       var sourceWidth = DistanceMeter.dimensions.WIDTH;
       var sourceHeight = DistanceMeter.dimensions.HEIGHT;
       var sourceX = DistanceMeter.dimensions.WIDTH * value;
@@ -146,16 +146,16 @@ DistanceMeter.prototype = {
       );
 
       this.canvasCtx.restore();
-  },
+  }
 
   /**
    * Covert pixel distance to a 'real' distance.
    * @param {number} distance Pixel distance ran.
    * @return {number} The 'real' distance ran.
    */
-  getActualDistance: function (distance) {
+   getActualDistance(distance: number): number {
       return distance ? Math.round(distance * this.config.COEFFICIENT) : 0;
-  },
+  }
 
   /**
    * Update the distance meter.
@@ -163,7 +163,7 @@ DistanceMeter.prototype = {
    * @param {number} deltaTime
    * @return {boolean} Whether the acheivement sound fx should be played.
    */
-  update: function (deltaTime, distance) {
+  update(deltaTime: number, distance: number) {
       var paint = true;
       var playSound = false;
 
@@ -222,38 +222,42 @@ DistanceMeter.prototype = {
 
       this.drawHighScore();
       return playSound;
-  },
+  }
 
   /**
    * Draw the high score.
    */
-  drawHighScore: function () {
+   drawHighScore() {
       this.canvasCtx.save();
       this.canvasCtx.globalAlpha = .8;
       for (var i = this.highScore.length - 1; i >= 0; i--) {
           this.draw(i, parseInt(this.highScore[i], 10), true);
       }
       this.canvasCtx.restore();
-  },
+  }
 
   /**
    * Set the highscore as a array string.
    * Position of char in the sprite: H - 10, I - 11.
    * @param {number} distance Distance ran in pixels.
    */
-  setHighScore: function (distance) {
+   setHighScore(distance: number) {
       distance = this.getActualDistance(distance);
       var highScoreStr = (this.defaultString +
           distance).substr(-this.maxScoreUnits);
 
       this.highScore = ['10', '11', ''].concat(highScoreStr.split(''));
-  },
+  }
 
   /**
    * Reset the distance meter back to '00000'.
    */
-  reset: function () {
+  reset() {
       this.update(0);
       this.acheivement = false;
   }
-};
+}
+
+
+
+

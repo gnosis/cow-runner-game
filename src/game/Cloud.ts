@@ -1,4 +1,4 @@
-import { getRandomNum, IS_HIDPI, Runner } from '.'
+import { getRandomNum, IS_HIDPI, Runner, Position } from '.'
 
 /**
 * Cloud background item.
@@ -7,19 +7,25 @@ import { getRandomNum, IS_HIDPI, Runner } from '.'
 * @param {Object} spritePos Position of image in sprite.
 * @param {number} containerWidth
 */
-export function Cloud(canvas, spritePos, containerWidth) {
-  this.canvas = canvas;
-  this.canvasCtx = this.canvas.getContext('2d');
-  this.spritePos = spritePos;
-  this.containerWidth = containerWidth;
-  this.xPos = containerWidth;
-  this.yPos = 0;
-  this.remove = false;
-  this.cloudGap = getRandomNum(Cloud.config.MIN_CLOUD_GAP,
-      Cloud.config.MAX_CLOUD_GAP);
+export class Cloud {
+  canvas: HTMLCanvasElement
+  canvasCtx: CanvasRenderingContext2D
+  spritePos: Position
 
-  this.init();
-};
+  constructor (canvas: HTMLCanvasElement, spritePos: Position, containerWidth: number) {
+    this.canvas = canvas;
+    this.canvasCtx = this.canvas.getContext('2d');
+    this.spritePos = spritePos;
+    this.containerWidth = containerWidth;
+    this.xPos = containerWidth;
+    this.yPos = 0;
+    this.remove = false;
+    this.cloudGap = getRandomNum(Cloud.config.MIN_CLOUD_GAP,
+        Cloud.config.MAX_CLOUD_GAP);
+  
+    this.init();
+  }
+}
 
 
 /**
@@ -72,7 +78,7 @@ Cloud.prototype = {
    * Update the cloud position.
    * @param {number} speed
    */
-  update: function (speed) {
+  update: function (speed: number) {
       if (!this.remove) {
           this.xPos -= Math.ceil(speed);
           this.draw();
@@ -88,7 +94,7 @@ Cloud.prototype = {
    * Check if the cloud is visible on the stage.
    * @return {boolean}
    */
-  isVisible: function () {
+  isVisible: function (): boolean {
       return this.xPos + Cloud.config.WIDTH > 0;
   }
 };

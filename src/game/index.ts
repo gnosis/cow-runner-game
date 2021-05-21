@@ -1,4 +1,5 @@
 // Const and utils
+export * from './types'
 export * from './const'
 export * from './utils'
 
