@@ -12,8 +12,9 @@
     "build": "npm run build:lib",
     "build:web": "NODE_ENV=production webpack",
     "build:lib": "tsc",
-    "prepare": "npm run clean && npm run build:lib",
-    "clean": "rimraf build"
+    "prepare": "npm run clean && npm run assets && npm run build:lib",
+    "clean": "rimraf build",
+    "assets": "copyfiles -u 1 src/**/*.png src/**/*.css dist"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.3",
@@ -24,6 +25,7 @@
     "@types/react": "^17.0.6",
     "@types/react-dom": "^17.0.5",
     "babel-loader": "8.2.2",
+    "copyfiles": "^2.4.1",
     "css-loader": "5.2.5",
     "html-webpack-plugin": "^5.3.1",
     "rimraf": "^3.0.2",
