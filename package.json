@@ -5,11 +5,13 @@
   "main": "index.js",
   "repository": "git@github.com:anxolin/cow-runner-game.git",
   "scripts": {
+    "start": "webpack serve",
     "build": "NODE_ENV=production webpack"
   },
   "devDependencies": {
     "html-webpack-plugin": "^5.3.1",
     "webpack": "^5.37.1",
-    "webpack-cli": "^4.7.0"
+    "webpack-cli": "^4.7.0",
+    "webpack-dev-server": "^3.11.2"
   }
 }
