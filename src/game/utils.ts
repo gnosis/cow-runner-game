@@ -8,17 +8,20 @@ import { IS_IOS, IS_MOBILE, CollisionBox, Trex } from '.'
  *    collision boxes.
  * @return {Array<CollisionBox>}
  */
- export function checkForCollision(obstacle, tRex, opt_canvasCtx) {
+ export function checkForCollision(obstacle: any, tRex: any, opt_canvasCtx: any) {
+  // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
   var obstacleBoxXPos = Runner.defaultDimensions.WIDTH + obstacle.xPos;
 
   // Adjustments are made to the bounding box as there is a 1 pixel white
   // border around the t-rex and obstacles.
+  // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
   var tRexBox = new CollisionBox(
       tRex.xPos + 1,
       tRex.yPos + 1,
       tRex.config.WIDTH - 2,
       tRex.config.HEIGHT - 2);
 
+  // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
   var obstacleBox = new CollisionBox(
       obstacle.xPos + 1,
       obstacle.yPos + 1,
@@ -67,7 +70,8 @@ import { IS_IOS, IS_MOBILE, CollisionBox, Trex } from '.'
 * @param {!CollisionBox} adjustment Adjustment box.
 * @return {CollisionBox} The adjusted collision box object.
 */
-export function createAdjustedCollisionBox(box, adjustment) {
+export function createAdjustedCollisionBox(box: any, adjustment: any) {
+  // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
   return new CollisionBox(
       box.x + adjustment.x,
       box.y + adjustment.y,
@@ -79,7 +83,7 @@ export function createAdjustedCollisionBox(box, adjustment) {
 /**
 * Draw the collision boxes for debug.
 */
-function drawCollisionBoxes(canvasCtx, tRexBox, obstacleBox) {
+function drawCollisionBoxes(canvasCtx: any, tRexBox: any, obstacleBox: any) {
   canvasCtx.save();
   canvasCtx.strokeStyle = '#f00';
   canvasCtx.strokeRect(tRexBox.x, tRexBox.y, tRexBox.width, tRexBox.height);
@@ -97,7 +101,7 @@ function drawCollisionBoxes(canvasCtx, tRexBox, obstacleBox) {
 * @param {CollisionBox} obstacleBox
 * @return {boolean} Whether the boxes intersected.
 */
-function boxCompare(tRexBox, obstacleBox) {
+function boxCompare(tRexBox: any, obstacleBox: any) {
   var crashed = false;
   var tRexBoxX = tRexBox.x;
   var tRexBoxY = tRexBox.y;
@@ -123,7 +127,7 @@ function boxCompare(tRexBox, obstacleBox) {
  * @param {number} max
  * @param {number}
  */
- export function getRandomNum(min, max) {
+ export function getRandomNum(min: any, max: any) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -132,7 +136,7 @@ function boxCompare(tRexBox, obstacleBox) {
 * Vibrate on mobile devices.
 * @param {number} duration Duration of the vibration in milliseconds.
 */
-export function vibrate(duration) {
+export function vibrate(duration: any) {
   if (IS_MOBILE && window.navigator.vibrate) {
       window.navigator.vibrate(duration);
   }
@@ -147,10 +151,12 @@ export function vibrate(duration) {
 * @param {string} opt_classname
 * @return {HTMLCanvasElement}
 */
-export function createCanvas(container, width, height, opt_classname) {
+export function createCanvas(container: any, width: any, height: any, opt_classname: any) {
   var canvas = document.createElement('canvas');
-  canvas.className = opt_classname ? Runner.classes.CANVAS + ' ' +
-      opt_classname : Runner.classes.CANVAS;
+  canvas.className = opt_classname ? // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
+    Runner.classes.CANVAS + ' ' +
+      opt_classname : // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
+        Runner.classes.CANVAS;
   canvas.width = width;
   canvas.height = height;
   container.appendChild(canvas);
@@ -163,7 +169,7 @@ export function createCanvas(container, width, height, opt_classname) {
 * Decodes the base 64 audio to ArrayBuffer used by Web Audio.
 * @param {string} base64String
 */
-export function decodeBase64ToArrayBuffer(base64String) {
+export function decodeBase64ToArrayBuffer(base64String: any) {
   var len = (base64String.length / 4) * 3;
   var str = atob(base64String);
   var arrayBuffer = new ArrayBuffer(len);

@@ -2,9 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 // extract from chromium source code by @liuwayong
-
-import { Horizon, Trex, GameOverPanel, DistanceMeter, DEFAULT_WIDTH, FPS, IS_HIDPI, IS_MOBILE, IS_IOS, getTimeStamp, decodeBase64ToArrayBuffer, createCanvas, checkForCollision, vibrate } from '.'
-
+import { Horizon, Trex, GameOverPanel, DistanceMeter, DEFAULT_WIDTH, FPS, IS_HIDPI, IS_MOBILE, IS_IOS, getTimeStamp, decodeBase64ToArrayBuffer, createCanvas, checkForCollision, vibrate } from '.';
 /**
  * T-Rex runner.
  * @param {string} outerContainerId Outer containing element id.
@@ -12,39 +10,30 @@ import { Horizon, Trex, GameOverPanel, DistanceMeter, DEFAULT_WIDTH, FPS, IS_HID
  * @constructor
  * @export
  */
-export function Runner(outerContainerId, opt_config) {
+// @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+export function Runner(this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, this: any, outerContainerId: any, opt_config: any) {
     // Singleton
-    if (Runner.instance_) {
-        return Runner.instance_;
+    if ((Runner as any).instance_) {
+        return (Runner as any).instance_;
     }
-    Runner.instance_ = this;
-
+    (Runner as any).instance_ = this;
     this.outerContainerEl = document.querySelector(outerContainerId);
     this.containerEl = null;
     this.snackbarEl = null;
     this.detailsButton = this.outerContainerEl.querySelector('#details-button');
-
     this.config = opt_config || Runner.config;
-
     this.dimensions = Runner.defaultDimensions;
-
     this.canvas = null;
     this.canvasCtx = null;
-
     this.tRex = null;
-
     this.distanceMeter = null;
     this.distanceRan = 0;
-
     this.highestScore = 0;
-
     this.time = 0;
     this.runningTime = 0;
     this.msPerFrame = 1000 / FPS;
     this.currentSpeed = this.config.SPEED;
-
     this.obstacles = [];
-
     this.activated = false; // Whether the easter egg has been activated.
     this.playing = false; // Whether the game is currently in play state.
     this.crashed = false;
@@ -52,30 +41,24 @@ export function Runner(outerContainerId, opt_config) {
     this.inverted = false;
     this.invertTimer = 0;
     this.resizeTimerId_ = null;
-
     this.playCount = 0;
-
     // Sound FX.
     this.audioBuffer = null;
     this.soundFx = {};
-
     // Global web audio context for playing sounds.
     this.audioContext = null;
-
     // Images.
     this.images = {};
     this.imagesLoaded = 0;
-
     if (this.isDisabled()) {
         this.setupDisabledRunner();
-    } else {
+    }
+    else {
         this.loadImages();
     }
 }
+// @ts-expect-error ts-migrate(7015) FIXME: Element implicitly has an 'any' type because index... Remove this comment to see the full error message
 window['Runner'] = Runner;
-
-
-
 /**
  * Default game configuration.
  * @enum {number}
@@ -103,8 +86,6 @@ Runner.config = {
     SPEED: 6,
     SPEED_DROP_COEFFICIENT: 3
 };
-
-
 /**
  * Default dimensions.
  * @enum {string}
@@ -113,8 +94,6 @@ Runner.defaultDimensions = {
     WIDTH: DEFAULT_WIDTH,
     HEIGHT: 150
 };
-
-
 /**
  * CSS class names.
  * @enum {string}
@@ -129,8 +108,6 @@ Runner.classes = {
     SNACKBAR_SHOW: 'snackbar-show',
     TOUCH_CONTROLLER: 'controller'
 };
-
-
 /**
  * Sprite definition layout of the spritesheet.
  * @enum {Object}
@@ -161,8 +138,6 @@ Runner.spriteDefinition = {
         STAR: { x: 1276, y: 2 }
     }
 };
-
-
 /**
  * Sound FX. Reference to the ID of the audio tag on interstitial page.
  * @enum {string}
@@ -172,19 +147,15 @@ Runner.sounds = {
     HIT: 'offline-sound-hit',
     SCORE: 'offline-sound-reached'
 };
-
-
 /**
  * Key code mapping.
  * @enum {Object}
  */
 Runner.keycodes = {
-    JUMP: { '38': 1, '32': 1 },  // Up, spacebar
-    DUCK: { '40': 1 },  // Down
-    RESTART: { '13': 1 }  // Enter
+    JUMP: { '38': 1, '32': 1 },
+    DUCK: { '40': 1 },
+    RESTART: { '13': 1 } // Enter
 };
-
-
 /**
  * Runner event names.
  * @enum {string}
@@ -204,8 +175,6 @@ Runner.events = {
     FOCUS: 'focus',
     LOAD: 'load'
 };
-
-
 Runner.prototype = {
     /**
      * Whether the easter egg has been disabled. CrOS enterprise enrolled devices.
@@ -215,34 +184,33 @@ Runner.prototype = {
         // return loadTimeData && loadTimeData.valueExists('disabledEasterEgg');
         return false;
     },
-
     /**
      * For disabled instances, set up a snackbar with the disabled message.
      */
     setupDisabledRunner: function () {
         this.containerEl = document.createElement('div');
         this.containerEl.className = Runner.classes.SNACKBAR;
+        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'loadTimeData'.
         this.containerEl.textContent = loadTimeData.getValue('disabledEasterEgg');
         this.outerContainerEl.appendChild(this.containerEl);
-
         // Show notification when the activation key is pressed.
-        document.addEventListener(Runner.events.KEYDOWN, function (e) {
+        document.addEventListener(Runner.events.KEYDOWN, function (this: any, e: any) {
+            // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             if (Runner.keycodes.JUMP[e.keyCode]) {
                 this.containerEl.classList.add(Runner.classes.SNACKBAR_SHOW);
+                // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
                 document.querySelector('.icon').classList.add('icon-disabled');
             }
         }.bind(this));
     },
-
     /**
      * Setting individual settings for debugging.
      * @param {string} setting
      * @param {*} value
      */
-    updateConfigSetting: function (setting, value) {
+    updateConfigSetting: function (setting: any, value: any) {
         if (setting in this.config && value != undefined) {
             this.config[setting] = value;
-
             switch (setting) {
                 case 'GRAVITY':
                 case 'MIN_JUMP_HEIGHT':
@@ -258,117 +226,97 @@ Runner.prototype = {
             }
         }
     },
-
     /**
      * Cache the appropriate image sprite from the page and get the sprite sheet
      * definition.
      */
     loadImages: function () {
         if (IS_HIDPI) {
-            Runner.imageSprite = document.getElementById('offline-resources-2x');
+            (Runner as any).imageSprite = document.getElementById('offline-resources-2x');
             this.spriteDef = Runner.spriteDefinition.HDPI;
-        } else {
-            Runner.imageSprite = document.getElementById('offline-resources-1x');
+        }
+        else {
+            (Runner as any).imageSprite = document.getElementById('offline-resources-1x');
             this.spriteDef = Runner.spriteDefinition.LDPI;
         }
-
-        if (Runner.imageSprite.complete) {
+        if ((Runner as any).imageSprite.complete) {
             this.init();
-        } else {
+        }
+        else {
             // If the images are not yet loaded, add a listener.
-            Runner.imageSprite.addEventListener(Runner.events.LOAD,
-                this.init.bind(this));
+            (Runner as any).imageSprite.addEventListener(Runner.events.LOAD, this.init.bind(this));
         }
     },
-
     /**
      * Load and decode base 64 encoded sounds.
      */
     loadSounds: function () {
         if (!IS_IOS) {
             this.audioContext = new AudioContext();
-
-            var resourceTemplate =
-                document.getElementById(this.config.RESOURCE_TEMPLATE_ID);
-
+            var resourceTemplate = document.getElementById(this.config.RESOURCE_TEMPLATE_ID);
             for (var sound in Runner.sounds) {
-                var soundSrc =
-                    resourceTemplate.querySelector('#' + Runner.sounds[sound]).src;
+                // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
+                var soundSrc = (resourceTemplate.querySelector('#' + Runner.sounds[sound]) as any).src;
                 soundSrc = soundSrc.substr(soundSrc.indexOf(',') + 1);
                 var buffer = decodeBase64ToArrayBuffer(soundSrc);
-
                 // Async, so no guarantee of order in array.
-                this.audioContext.decodeAudioData(buffer, function (index, audioData) {
+                this.audioContext.decodeAudioData(buffer, function (this: any, index: any, audioData: any) {
                     this.soundFx[index] = audioData;
                 }.bind(this, sound));
             }
         }
     },
-
     /**
      * Sets the game speed. Adjust the speed accordingly if on a smaller screen.
      * @param {number} opt_speed
      */
-    setSpeed: function (opt_speed) {
+    setSpeed: function (opt_speed: any) {
         var speed = opt_speed || this.currentSpeed;
-
         // Reduce the speed on smaller mobile screens.
         if (this.dimensions.WIDTH < DEFAULT_WIDTH) {
             var mobileSpeed = speed * this.dimensions.WIDTH / DEFAULT_WIDTH *
                 this.config.MOBILE_SPEED_COEFFICIENT;
             this.currentSpeed = mobileSpeed > speed ? speed : mobileSpeed;
-        } else if (opt_speed) {
+        }
+        else if (opt_speed) {
             this.currentSpeed = opt_speed;
         }
     },
-
     /**
      * Game initialiser.
      */
     init: function () {
         // Hide the static icon.
-        document.querySelector('.' + Runner.classes.ICON).style.visibility =
+        (document.querySelector('.' + Runner.classes.ICON) as any).style.visibility =
             'hidden';
-
         this.adjustDimensions();
         this.setSpeed();
-
         this.containerEl = document.createElement('div');
         this.containerEl.className = Runner.classes.CONTAINER;
-
         // Player canvas container.
-        this.canvas = createCanvas(this.containerEl, this.dimensions.WIDTH,
-            this.dimensions.HEIGHT, Runner.classes.PLAYER);
-
+        this.canvas = createCanvas(this.containerEl, this.dimensions.WIDTH, this.dimensions.HEIGHT, (Runner.classes as any).PLAYER);
         this.canvasCtx = this.canvas.getContext('2d');
         this.canvasCtx.fillStyle = '#f7f7f7';
         this.canvasCtx.fill();
+        // @ts-expect-error ts-migrate(2554) FIXME: Expected 3 arguments, but got 1.
         Runner.updateCanvasScaling(this.canvas);
-
         // Horizon contains clouds, obstacles and the ground.
-        this.horizon = new Horizon(this.canvas, this.spriteDef, this.dimensions,
-            this.config.GAP_COEFFICIENT);
-
+        // @ts-expect-error ts-migrate(2554) FIXME: Expected 25 arguments, but got 4.
+        this.horizon = new Horizon(this.canvas, this.spriteDef, this.dimensions, this.config.GAP_COEFFICIENT);
         // Distance meter
-        this.distanceMeter = new DistanceMeter(this.canvas,
-            this.spriteDef.TEXT_SPRITE, this.dimensions.WIDTH);
-
+        // @ts-expect-error ts-migrate(2554) FIXME: Expected 23 arguments, but got 3.
+        this.distanceMeter = new DistanceMeter(this.canvas, this.spriteDef.TEXT_SPRITE, this.dimensions.WIDTH);
         // Draw t-rex
+        // @ts-expect-error ts-migrate(2554) FIXME: Expected 25 arguments, but got 2.
         this.tRex = new Trex(this.canvas, this.spriteDef.TREX);
-
         this.outerContainerEl.appendChild(this.containerEl);
-
         if (IS_MOBILE) {
             this.createTouchController();
         }
-
         this.startListening();
         this.update();
-
-        window.addEventListener(Runner.events.RESIZE,
-            this.debounceResize.bind(this));
+        window.addEventListener(Runner.events.RESIZE, this.debounceResize.bind(this));
     },
-
     /**
      * Create the touch controller. A div that covers whole screen.
      */
@@ -377,7 +325,6 @@ Runner.prototype = {
         this.touchController.className = Runner.classes.TOUCH_CONTROLLER;
         this.outerContainerEl.appendChild(this.touchController);
     },
-
     /**
      * Debounce the resize event.
      */
@@ -387,42 +334,35 @@ Runner.prototype = {
                 setInterval(this.adjustDimensions.bind(this), 250);
         }
     },
-
     /**
      * Adjust game space dimensions on resize.
      */
     adjustDimensions: function () {
         clearInterval(this.resizeTimerId_);
         this.resizeTimerId_ = null;
-
         var boxStyles = window.getComputedStyle(this.outerContainerEl);
-        var padding = Number(boxStyles.paddingLeft.substr(0,
-            boxStyles.paddingLeft.length - 2));
-
+        var padding = Number(boxStyles.paddingLeft.substr(0, boxStyles.paddingLeft.length - 2));
         this.dimensions.WIDTH = this.outerContainerEl.offsetWidth - padding * 2;
-
         // Redraw the elements back onto the canvas.
         if (this.canvas) {
             this.canvas.width = this.dimensions.WIDTH;
             this.canvas.height = this.dimensions.HEIGHT;
-
+            // @ts-expect-error ts-migrate(2554) FIXME: Expected 3 arguments, but got 1.
             Runner.updateCanvasScaling(this.canvas);
-
             this.distanceMeter.calcXPos(this.dimensions.WIDTH);
             this.clearCanvas();
             this.horizon.update(0, 0, true);
             this.tRex.update(0);
-
             // Outer container and distance meter.
             if (this.playing || this.crashed || this.paused) {
                 this.containerEl.style.width = this.dimensions.WIDTH + 'px';
                 this.containerEl.style.height = this.dimensions.HEIGHT + 'px';
                 this.distanceMeter.update(0, Math.ceil(this.distanceRan));
                 this.stop();
-            } else {
+            }
+            else {
                 this.tRex.draw(0, 0);
             }
-
             // Game over panel.
             if (this.crashed && this.gameOverPanel) {
                 this.gameOverPanel.updateDimensions(this.dimensions.WIDTH);
@@ -430,7 +370,6 @@ Runner.prototype = {
             }
         }
     },
-
     /**
      * Play the game intro.
      * Canvas container width expands out to the full width.
@@ -439,36 +378,29 @@ Runner.prototype = {
         if (!this.activated && !this.crashed) {
             this.playingIntro = true;
             this.tRex.playingIntro = true;
-
             // CSS animation definition.
             var keyframes = '@-webkit-keyframes intro { ' +
                 'from { width:' + Trex.config.WIDTH + 'px }' +
                 'to { width: ' + this.dimensions.WIDTH + 'px }' +
                 '}';
-            
             // create a style sheet to put the keyframe rule in 
             // and then place the style sheet in the html head    
             var sheet = document.createElement('style');
             sheet.innerHTML = keyframes;
             document.head.appendChild(sheet);
-
-            this.containerEl.addEventListener(Runner.events.ANIM_END,
-                this.startGame.bind(this));
-
+            this.containerEl.addEventListener(Runner.events.ANIM_END, this.startGame.bind(this));
             this.containerEl.style.webkitAnimation = 'intro .4s ease-out 1 both';
             this.containerEl.style.width = this.dimensions.WIDTH + 'px';
-
             // if (this.touchController) {
             //     this.outerContainerEl.appendChild(this.touchController);
             // }
             this.playing = true;
             this.activated = true;
-        } else if (this.crashed) {
+        }
+        else if (this.crashed) {
             this.restart();
         }
     },
-
-
     /**
      * Update the game status to started.
      */
@@ -478,93 +410,72 @@ Runner.prototype = {
         this.tRex.playingIntro = false;
         this.containerEl.style.webkitAnimation = '';
         this.playCount++;
-
         // Handle tabbing off the page. Pause the current game.
-        document.addEventListener(Runner.events.VISIBILITY,
-            this.onVisibilityChange.bind(this));
-
-        window.addEventListener(Runner.events.BLUR,
-            this.onVisibilityChange.bind(this));
-
-        window.addEventListener(Runner.events.FOCUS,
-            this.onVisibilityChange.bind(this));
+        document.addEventListener(Runner.events.VISIBILITY, this.onVisibilityChange.bind(this));
+        window.addEventListener(Runner.events.BLUR, this.onVisibilityChange.bind(this));
+        window.addEventListener(Runner.events.FOCUS, this.onVisibilityChange.bind(this));
     },
-
     clearCanvas: function () {
-        this.canvasCtx.clearRect(0, 0, this.dimensions.WIDTH,
-            this.dimensions.HEIGHT);
+        this.canvasCtx.clearRect(0, 0, this.dimensions.WIDTH, this.dimensions.HEIGHT);
     },
-
     /**
      * Update the game frame and schedules the next one.
      */
     update: function () {
         this.updatePending = false;
-
         var now = getTimeStamp();
         var deltaTime = now - (this.time || now);
         this.time = now;
-
         if (this.playing) {
             this.clearCanvas();
-
             if (this.tRex.jumping) {
                 this.tRex.updateJump(deltaTime);
             }
-
             this.runningTime += deltaTime;
             var hasObstacles = this.runningTime > this.config.CLEAR_TIME;
-
             // First jump triggers the intro.
             if (this.tRex.jumpCount == 1 && !this.playingIntro) {
                 this.playIntro();
             }
-
             // The horizon doesn't move until the intro is over.
             if (this.playingIntro) {
                 this.horizon.update(0, this.currentSpeed, hasObstacles);
-            } else {
-                deltaTime = !this.activated ? 0 : deltaTime;
-                this.horizon.update(deltaTime, this.currentSpeed, hasObstacles,
-                    this.inverted);
             }
-
+            else {
+                deltaTime = !this.activated ? 0 : deltaTime;
+                this.horizon.update(deltaTime, this.currentSpeed, hasObstacles, this.inverted);
+            }
             // Check for collisions.
             var collision = hasObstacles &&
+                // @ts-expect-error ts-migrate(2554) FIXME: Expected 3 arguments, but got 2.
                 checkForCollision(this.horizon.obstacles[0], this.tRex);
-
             if (!collision) {
                 this.distanceRan += this.currentSpeed * deltaTime / this.msPerFrame;
-
                 if (this.currentSpeed < this.config.MAX_SPEED) {
                     this.currentSpeed += this.config.ACCELERATION;
                 }
-            } else {
+            }
+            else {
                 this.gameOver();
             }
-
-            var playAchievementSound = this.distanceMeter.update(deltaTime,
-                Math.ceil(this.distanceRan));
-
+            var playAchievementSound = this.distanceMeter.update(deltaTime, Math.ceil(this.distanceRan));
             if (playAchievementSound) {
                 this.playSound(this.soundFx.SCORE);
             }
-
             // Night mode.
             if (this.invertTimer > this.config.INVERT_FADE_DURATION) {
                 this.invertTimer = 0;
                 this.invertTrigger = false;
                 this.invert();
-            } else if (this.invertTimer) {
+            }
+            else if (this.invertTimer) {
                 this.invertTimer += deltaTime;
-            } else {
-                var actualDistance =
-                    this.distanceMeter.getActualDistance(Math.ceil(this.distanceRan));
-
+            }
+            else {
+                var actualDistance = this.distanceMeter.getActualDistance(Math.ceil(this.distanceRan));
                 if (actualDistance > 0) {
                     this.invertTrigger = !(actualDistance %
                         this.config.INVERT_DISTANCE);
-
                     if (this.invertTrigger && this.invertTimer === 0) {
                         this.invertTimer += deltaTime;
                         this.invert();
@@ -572,19 +483,18 @@ Runner.prototype = {
                 }
             }
         }
-
         if (this.playing || (!this.activated &&
             this.tRex.blinkCount < Runner.config.MAX_BLINK_COUNT)) {
             this.tRex.update(deltaTime);
             this.scheduleNextUpdate();
         }
     },
-
     /**
      * Event handler.
      */
-    handleEvent: function (e) {
-        return (function (evtType, events) {
+    handleEvent: function (e: any) {
+        // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+        return (function (this: any, this: any, evtType: any, events: any) {
             switch (evtType) {
                 case events.KEYDOWN:
                 case events.TOUCHSTART:
@@ -599,7 +509,6 @@ Runner.prototype = {
             }
         }.bind(this))(e.type, Runner.events);
     },
-
     /**
      * Bind relevant key / mouse / touch listeners.
      */
@@ -607,54 +516,53 @@ Runner.prototype = {
         // Keys.
         document.addEventListener(Runner.events.KEYDOWN, this);
         document.addEventListener(Runner.events.KEYUP, this);
-
         if (IS_MOBILE) {
             // Mobile only touch devices.
             this.touchController.addEventListener(Runner.events.TOUCHSTART, this);
             this.touchController.addEventListener(Runner.events.TOUCHEND, this);
             this.containerEl.addEventListener(Runner.events.TOUCHSTART, this);
-        } else {
+        }
+        else {
             // Mouse.
             document.addEventListener(Runner.events.MOUSEDOWN, this);
             document.addEventListener(Runner.events.MOUSEUP, this);
         }
     },
-
     /**
      * Remove all listeners.
      */
     stopListening: function () {
         document.removeEventListener(Runner.events.KEYDOWN, this);
         document.removeEventListener(Runner.events.KEYUP, this);
-
         if (IS_MOBILE) {
             this.touchController.removeEventListener(Runner.events.TOUCHSTART, this);
             this.touchController.removeEventListener(Runner.events.TOUCHEND, this);
             this.containerEl.removeEventListener(Runner.events.TOUCHSTART, this);
-        } else {
+        }
+        else {
             document.removeEventListener(Runner.events.MOUSEDOWN, this);
             document.removeEventListener(Runner.events.MOUSEUP, this);
         }
     },
-
     /**
      * Process keydown.
      * @param {Event} e
      */
-    onKeyDown: function (e) {
+    onKeyDown: function (e: any) {
         // Prevent native page scrolling whilst tapping on mobile.
         if (IS_MOBILE && this.playing) {
             e.preventDefault();
         }
-
         if (e.target != this.detailsButton) {
+            // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             if (!this.crashed && (Runner.keycodes.JUMP[e.keyCode] ||
                 e.type == Runner.events.TOUCHSTART)) {
                 if (!this.playing) {
                     this.loadSounds();
                     this.playing = true;
                     this.update();
-                    if (window.errorPageController) {
+                    if ((window as any).errorPageController) {
+                        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'errorPageController'.
                         errorPageController.trackEasterEgg();
                     }
                 }
@@ -664,68 +572,69 @@ Runner.prototype = {
                     this.tRex.startJump(this.currentSpeed);
                 }
             }
-
             if (this.crashed && e.type == Runner.events.TOUCHSTART &&
                 e.currentTarget == this.containerEl) {
                 this.restart();
             }
         }
-
+        // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         if (this.playing && !this.crashed && Runner.keycodes.DUCK[e.keyCode]) {
             e.preventDefault();
             if (this.tRex.jumping) {
                 // Speed drop, activated only when jump key is not pressed.
                 this.tRex.setSpeedDrop();
-            } else if (!this.tRex.jumping && !this.tRex.ducking) {
+            }
+            else if (!this.tRex.jumping && !this.tRex.ducking) {
                 // Duck.
                 this.tRex.setDuck(true);
             }
         }
     },
-
-
     /**
      * Process key up.
      * @param {Event} e
      */
-    onKeyUp: function (e) {
+    onKeyUp: function (e: any) {
         var keyCode = String(e.keyCode);
+        // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         var isjumpKey = Runner.keycodes.JUMP[keyCode] ||
             e.type == Runner.events.TOUCHEND ||
             e.type == Runner.events.MOUSEDOWN;
-
         if (this.isRunning() && isjumpKey) {
             this.tRex.endJump();
-        } else if (Runner.keycodes.DUCK[keyCode]) {
+        }
+        // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        else if (Runner.keycodes.DUCK[keyCode]) {
             this.tRex.speedDrop = false;
             this.tRex.setDuck(false);
-        } else if (this.crashed) {
+        }
+        else if (this.crashed) {
             // Check that enough time has elapsed before allowing jump key to restart.
             var deltaTime = getTimeStamp() - this.time;
-
+            // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             if (Runner.keycodes.RESTART[keyCode] || this.isLeftClickOnCanvas(e) ||
                 (deltaTime >= this.config.GAMEOVER_CLEAR_TIME &&
+                    // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                     Runner.keycodes.JUMP[keyCode])) {
                 this.restart();
             }
-        } else if (this.paused && isjumpKey) {
+        }
+        else if (this.paused && isjumpKey) {
             // Reset the jump state
             this.tRex.reset();
             this.play();
         }
     },
-
     /**
      * Returns whether the event was a left click on canvas.
      * On Windows right click is registered as a click.
      * @param {Event} e
      * @return {boolean}
      */
-    isLeftClickOnCanvas: function (e) {
+    isLeftClickOnCanvas: function (e: any) {
         return e.button != null && e.button < 2 &&
             e.type == Runner.events.MOUSEUP && e.target == this.canvas;
     },
-
     /**
      * RequestAnimationFrame wrapper.
      */
@@ -735,7 +644,6 @@ Runner.prototype = {
             this.raqId = requestAnimationFrame(this.update.bind(this));
         }
     },
-
     /**
      * Whether the game is running.
      * @return {boolean}
@@ -743,46 +651,38 @@ Runner.prototype = {
     isRunning: function () {
         return !!this.raqId;
     },
-
     /**
      * Game over state.
      */
     gameOver: function () {
         this.playSound(this.soundFx.HIT);
         vibrate(200);
-
         this.stop();
         this.crashed = true;
         this.distanceMeter.acheivement = false;
-
         this.tRex.update(100, Trex.status.CRASHED);
-
         // Game over panel.
         if (!this.gameOverPanel) {
-            this.gameOverPanel = new GameOverPanel(this.canvas,
-                this.spriteDef.TEXT_SPRITE, this.spriteDef.RESTART,
-                this.dimensions);
-        } else {
+            // @ts-expect-error ts-migrate(2554) FIXME: Expected 9 arguments, but got 4.
+            this.gameOverPanel = new GameOverPanel(this.canvas, this.spriteDef.TEXT_SPRITE, this.spriteDef.RESTART, this.dimensions);
+        }
+        else {
             this.gameOverPanel.draw();
         }
-
         // Update the high score.
         if (this.distanceRan > this.highestScore) {
             this.highestScore = Math.ceil(this.distanceRan);
             this.distanceMeter.setHighScore(this.highestScore);
         }
-
         // Reset the time clock.
         this.time = getTimeStamp();
     },
-
     stop: function () {
         this.playing = false;
         this.paused = true;
         cancelAnimationFrame(this.raqId);
         this.raqId = 0;
     },
-
     play: function () {
         if (!this.crashed) {
             this.playing = true;
@@ -792,7 +692,6 @@ Runner.prototype = {
             this.update();
         }
     },
-
     restart: function () {
         if (!this.raqId) {
             this.playCount++;
@@ -812,25 +711,24 @@ Runner.prototype = {
             this.update();
         }
     },
-
     /**
      * Pause the game if the tab is not in focus.
      */
-    onVisibilityChange: function (e) {
-        if (document.hidden || document.webkitHidden || e.type == 'blur' ||
+    onVisibilityChange: function (e: any) {
+        if (document.hidden || (document as any).webkitHidden || e.type == 'blur' ||
             document.visibilityState != 'visible') {
             this.stop();
-        } else if (!this.crashed) {
+        }
+        else if (!this.crashed) {
             this.tRex.reset();
             this.play();
         }
     },
-
     /**
      * Play a sound.
      * @param {SoundBuffer} soundBuffer
      */
-    playSound: function (soundBuffer) {
+    playSound: function (soundBuffer: any) {
         if (soundBuffer) {
             var sourceNode = this.audioContext.createBufferSource();
             sourceNode.buffer = soundBuffer;
@@ -838,24 +736,21 @@ Runner.prototype = {
             sourceNode.start(0);
         }
     },
-
     /**
      * Inverts the current page / canvas colors.
      * @param {boolean} Whether to reset colors.
      */
-    invert: function (reset) {
+    invert: function (reset: any) {
         if (reset) {
             document.body.classList.toggle(Runner.classes.INVERTED, false);
             this.invertTimer = 0;
             this.inverted = false;
-        } else {
-            this.inverted = document.body.classList.toggle(Runner.classes.INVERTED,
-                this.invertTrigger);
+        }
+        else {
+            this.inverted = document.body.classList.toggle(Runner.classes.INVERTED, this.invertTrigger);
         }
     }
 };
-
-
 /**
  * Updates the canvas size taking into
  * account the backing store pixel ratio and
@@ -869,30 +764,26 @@ Runner.prototype = {
  * @param {number} opt_height
  * @return {boolean} Whether the canvas was scaled.
  */
-Runner.updateCanvasScaling = function (canvas, opt_width, opt_height) {
+Runner.updateCanvasScaling = function (canvas: any, opt_width: any, opt_height: any) {
     var context = canvas.getContext('2d');
-
     // Query the various pixel ratios
     var devicePixelRatio = Math.floor(window.devicePixelRatio) || 1;
     var backingStoreRatio = Math.floor(context.webkitBackingStorePixelRatio) || 1;
     var ratio = devicePixelRatio / backingStoreRatio;
-
     // Upscale the canvas if the two ratios don't match
     if (devicePixelRatio !== backingStoreRatio) {
         var oldWidth = opt_width || canvas.width;
         var oldHeight = opt_height || canvas.height;
-
         canvas.width = oldWidth * ratio;
         canvas.height = oldHeight * ratio;
-
         canvas.style.width = oldWidth + 'px';
         canvas.style.height = oldHeight + 'px';
-
         // Scale the context to counter the fact that we've manually scaled
         // our canvas element.
         context.scale(ratio, ratio);
         return true;
-    } else if (devicePixelRatio == 1) {
+    }
+    else if (devicePixelRatio == 1) {
         // Reset the canvas width / height. Fixes scaling bug when the page is
         // zoomed and the devicePixelRatio changes accordingly.
         canvas.style.width = canvas.width + 'px';

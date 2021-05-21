@@ -8,7 +8,24 @@ import { IS_HIDPI } from '.'
  * @param {!Object} dimensions Canvas dimensions.
  * @constructor
  */
- export function GameOverPanel(canvas, textImgPos, restartImgPos, dimensions) {
+ export function GameOverPanel(
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     canvas: any,
+     textImgPos: any,
+     restartImgPos: any,
+     dimensions: any
+ ) {
   this.canvas = canvas;
   this.canvasCtx = canvas.getContext('2d');
   this.canvasDimensions = dimensions;
@@ -38,7 +55,7 @@ GameOverPanel.prototype = {
    * @param {number} width New canvas width.
    * @param {number} opt_height Optional new canvas height.
    */
-  updateDimensions: function (width, opt_height) {
+  updateDimensions: function (width: any, opt_height: any) {
       this.canvasDimensions.WIDTH = width;
       if (opt_height) {
           this.canvasDimensions.HEIGHT = opt_height;
@@ -82,11 +99,13 @@ GameOverPanel.prototype = {
       textSourceY += this.textImgPos.y;
 
       // Game over text from sprite.
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
       this.canvasCtx.drawImage(Runner.imageSprite,
           textSourceX, textSourceY, textSourceWidth, textSourceHeight,
           textTargetX, textTargetY, textTargetWidth, textTargetHeight);
 
       // Restart button.
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
       this.canvasCtx.drawImage(Runner.imageSprite,
           this.restartImgPos.x, this.restartImgPos.y,
           restartSourceWidth, restartSourceHeight,

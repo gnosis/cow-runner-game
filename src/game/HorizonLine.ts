@@ -7,7 +7,44 @@ import { IS_HIDPI, FPS } from '.'
 * @param {Object} spritePos Horizon position in sprite.
 * @constructor
 */
-export function HorizonLine(canvas, spritePos) {
+export function HorizonLine(
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    canvas: any,
+    spritePos: any
+) {
   this.spritePos = spritePos;
   this.canvas = canvas;
   this.canvasCtx = canvas.getContext('2d');
@@ -45,12 +82,15 @@ HorizonLine.prototype = {
           if (IS_HIDPI) {
               if (dimension != 'YPOS') {
                   this.sourceDimensions[dimension] =
+                      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                       HorizonLine.dimensions[dimension] * 2;
               }
           } else {
               this.sourceDimensions[dimension] =
+                  // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                   HorizonLine.dimensions[dimension];
           }
+          // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           this.dimensions[dimension] = HorizonLine.dimensions[dimension];
       }
 
@@ -69,12 +109,14 @@ HorizonLine.prototype = {
    * Draw the horizon line.
    */
   draw: function () {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
       this.canvasCtx.drawImage(Runner.imageSprite, this.sourceXPos[0],
           this.spritePos.y,
           this.sourceDimensions.WIDTH, this.sourceDimensions.HEIGHT,
           this.xPos[0], this.yPos,
           this.dimensions.WIDTH, this.dimensions.HEIGHT);
 
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
       this.canvasCtx.drawImage(Runner.imageSprite, this.sourceXPos[1],
           this.spritePos.y,
           this.sourceDimensions.WIDTH, this.sourceDimensions.HEIGHT,
@@ -87,7 +129,7 @@ HorizonLine.prototype = {
    * @param {number} pos Line position.
    * @param {number} increment
    */
-  updateXPos: function (pos, increment) {
+  updateXPos: function (pos: any, increment: any) {
       var line1 = pos;
       var line2 = pos == 0 ? 1 : 0;
 
@@ -106,7 +148,7 @@ HorizonLine.prototype = {
    * @param {number} deltaTime
    * @param {number} speed
    */
-  update: function (deltaTime, speed) {
+  update: function (deltaTime: any, speed: any) {
       var increment = Math.floor(speed * (FPS / 1000) * deltaTime);
 
       if (this.xPos[0] <= 0) {

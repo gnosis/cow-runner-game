@@ -3,7 +3,35 @@ import { getRandomNum, IS_HIDPI } from '.'
 /**
 * Nightmode shows a moon and stars on the horizon.
 */
-export function NightMode(canvas, spritePos, containerWidth) {
+export function NightMode(
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    canvas: any,
+    spritePos: any,
+    containerWidth: any
+) {
   this.spritePos = spritePos;
   this.canvas = canvas;
   this.canvasCtx = canvas.getContext('2d');
@@ -39,7 +67,7 @@ NightMode.prototype = {
    * @param {boolean} activated Whether night mode is activated.
    * @param {number} delta
    */
-  update: function (activated, delta) {
+  update: function (activated: any, delta: any) {
       // Moon phase.
       if (activated && this.opacity == 0) {
           this.currentPhase++;
@@ -75,7 +103,7 @@ NightMode.prototype = {
       this.drawStars = true;
   },
 
-  updateXPos: function (currentPos, speed) {
+  updateXPos: function (currentPos: any, speed: any) {
       if (currentPos < -NightMode.config.WIDTH) {
           currentPos = this.containerWidth;
       } else {
@@ -91,6 +119,7 @@ NightMode.prototype = {
       var moonSourceX = this.spritePos.x + NightMode.phases[this.currentPhase];
       var moonOutputWidth = moonSourceWidth;
       var starSize = NightMode.config.STAR_SIZE;
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
       var starSourceX = Runner.spriteDefinition.LDPI.STAR.x;
 
       if (IS_HIDPI) {
@@ -99,6 +128,7 @@ NightMode.prototype = {
           moonSourceX = this.spritePos.x +
               (NightMode.phases[this.currentPhase] * 2);
           starSize *= 2;
+          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
           starSourceX = Runner.spriteDefinition.HDPI.STAR.x;
       }
 
@@ -108,6 +138,7 @@ NightMode.prototype = {
       // Stars.
       if (this.drawStars) {
           for (var i = 0; i < NightMode.config.NUM_STARS; i++) {
+              // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
               this.canvasCtx.drawImage(Runner.imageSprite,
                   starSourceX, this.stars[i].sourceY, starSize, starSize,
                   Math.round(this.stars[i].x), this.stars[i].y,
@@ -116,6 +147,7 @@ NightMode.prototype = {
       }
 
       // Moon.
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
       this.canvasCtx.drawImage(Runner.imageSprite, moonSourceX,
           this.spritePos.y, moonSourceWidth, moonSourceHeight,
           Math.round(this.xPos), this.yPos,
@@ -136,9 +168,11 @@ NightMode.prototype = {
           this.stars[i].y = getRandomNum(0, NightMode.config.STAR_MAX_Y);
 
           if (IS_HIDPI) {
+              // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
               this.stars[i].sourceY = Runner.spriteDefinition.HDPI.STAR.y +
                   NightMode.config.STAR_SIZE * 2 * i;
           } else {
+              // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
               this.stars[i].sourceY = Runner.spriteDefinition.LDPI.STAR.y +
                   NightMode.config.STAR_SIZE * i;
           }

@@ -7,9 +7,56 @@ import { IS_HIDPI } from '.'
 * @param {number} canvasWidth
 * @constructor
 */
-export function DistanceMeter(canvas, spritePos, canvasWidth) {
+export function DistanceMeter(
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    canvas: any,
+    spritePos: any,
+    canvasWidth: any
+) {
   this.canvas = canvas;
   this.canvasCtx = canvas.getContext('2d');
+  // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
   this.image = Runner.imageSprite;
   this.spritePos = spritePos;
   this.x = 0;
@@ -78,7 +125,7 @@ DistanceMeter.prototype = {
    * Initialise the distance meter to '00000'.
    * @param {number} width Canvas width in px.
    */
-  init: function (width) {
+  init: function (width: any) {
       var maxDistanceStr = '';
 
       this.calcXPos(width);
@@ -96,7 +143,7 @@ DistanceMeter.prototype = {
    * Calculate the xPos in the canvas.
    * @param {number} canvasWidth
    */
-  calcXPos: function (canvasWidth) {
+  calcXPos: function (canvasWidth: any) {
       this.x = canvasWidth - (DistanceMeter.dimensions.DEST_WIDTH *
           (this.maxScoreUnits + 1));
   },
@@ -107,7 +154,7 @@ DistanceMeter.prototype = {
    * @param {number} value Digit value 0-9.
    * @param {boolean} opt_highScore Whether drawing the high score.
    */
-  draw: function (digitPos, value, opt_highScore) {
+  draw: function (digitPos: any, value: any, opt_highScore: any) {
       var sourceWidth = DistanceMeter.dimensions.WIDTH;
       var sourceHeight = DistanceMeter.dimensions.HEIGHT;
       var sourceX = DistanceMeter.dimensions.WIDTH * value;
@@ -153,7 +200,7 @@ DistanceMeter.prototype = {
    * @param {number} distance Pixel distance ran.
    * @return {number} The 'real' distance ran.
    */
-  getActualDistance: function (distance) {
+  getActualDistance: function (distance: any) {
       return distance ? Math.round(distance * this.config.COEFFICIENT) : 0;
   },
 
@@ -163,7 +210,7 @@ DistanceMeter.prototype = {
    * @param {number} deltaTime
    * @return {boolean} Whether the acheivement sound fx should be played.
    */
-  update: function (deltaTime, distance) {
+  update: function (deltaTime: any, distance: any) {
       var paint = true;
       var playSound = false;
 
@@ -241,7 +288,7 @@ DistanceMeter.prototype = {
    * Position of char in the sprite: H - 10, I - 11.
    * @param {number} distance Distance ran in pixels.
    */
-  setHighScore: function (distance) {
+  setHighScore: function (distance: any) {
       distance = this.getActualDistance(distance);
       var highScoreStr = (this.defaultString +
           distance).substr(-this.maxScoreUnits);

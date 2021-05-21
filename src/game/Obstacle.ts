@@ -9,8 +9,49 @@ import { CollisionBox, getRandomNum, IS_HIDPI, FPS, IS_MOBILE } from '.'
  * @param {number} speed
  * @param {number} opt_xOffset
  */
- export function Obstacle(canvasCtx, type, spriteImgPos, dimensions,
-  gapCoefficient, speed, opt_xOffset) {
+ export function Obstacle(
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+     this: any,
+     canvasCtx: any,
+     type: any,
+     spriteImgPos: any,
+     dimensions: any,
+     gapCoefficient: any,
+     speed: any,
+     opt_xOffset: any
+ ) {
 
   this.canvasCtx = canvasCtx;
   this.spritePos = spriteImgPos;
@@ -51,7 +92,7 @@ Obstacle.MAX_OBSTACLE_LENGTH = 3,
        * Initialise the DOM for the obstacle.
        * @param {number} speed
        */
-      init: function (speed) {
+      init: function (speed: any) {
           this.cloneCollisionBoxes();
 
           // Only allow sizing if we're at the right speed.
@@ -116,6 +157,7 @@ Obstacle.MAX_OBSTACLE_LENGTH = 3,
               sourceX += sourceWidth * this.currentFrame;
           }
 
+          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
           this.canvasCtx.drawImage(Runner.imageSprite,
               sourceX, this.spritePos.y,
               sourceWidth * this.size, sourceHeight,
@@ -128,7 +170,7 @@ Obstacle.MAX_OBSTACLE_LENGTH = 3,
        * @param {number} deltaTime
        * @param {number} speed
        */
-      update: function (deltaTime, speed) {
+      update: function (deltaTime: any, speed: any) {
           if (!this.remove) {
               if (this.typeConfig.speedOffset) {
                   speed += this.speedOffset;
@@ -160,7 +202,7 @@ Obstacle.MAX_OBSTACLE_LENGTH = 3,
        * @param {number} speed
        * @return {number} The gap size.
        */
-      getGap: function (gapCoefficient, speed) {
+      getGap: function (gapCoefficient: any, speed: any) {
           var minGap = Math.round(this.width * speed +
               this.typeConfig.minGap * gapCoefficient);
           var maxGap = Math.round(minGap * Obstacle.MAX_GAP_COEFFICIENT);
@@ -183,6 +225,7 @@ Obstacle.MAX_OBSTACLE_LENGTH = 3,
           var collisionBoxes = this.typeConfig.collisionBoxes;
 
           for (var i = collisionBoxes.length - 1; i >= 0; i--) {
+              // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
               this.collisionBoxes[i] = new CollisionBox(collisionBoxes[i].x,
                   collisionBoxes[i].y, collisionBoxes[i].width,
                   collisionBoxes[i].height);
@@ -208,8 +251,11 @@ Obstacle.types = [
       minGap: 120,
       minSpeed: 0,
       collisionBoxes: [
+          // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
           new CollisionBox(0, 7, 5, 27),
+          // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
           new CollisionBox(4, 0, 6, 34),
+          // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
           new CollisionBox(10, 4, 7, 14)
       ]
   },
@@ -222,8 +268,11 @@ Obstacle.types = [
       minGap: 120,
       minSpeed: 0,
       collisionBoxes: [
+          // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
           new CollisionBox(0, 12, 7, 38),
+          // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
           new CollisionBox(8, 0, 7, 49),
+          // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
           new CollisionBox(13, 10, 10, 38)
       ]
   },
@@ -237,10 +286,15 @@ Obstacle.types = [
       minSpeed: 8.5,
       minGap: 150,
       collisionBoxes: [
+          // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
           new CollisionBox(15, 15, 16, 5),
+          // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
           new CollisionBox(18, 21, 24, 6),
+          // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
           new CollisionBox(2, 14, 4, 3),
+          // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
           new CollisionBox(6, 10, 4, 7),
+          // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
           new CollisionBox(10, 8, 6, 9)
       ],
       numFrames: 2,

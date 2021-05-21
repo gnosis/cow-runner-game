@@ -8,7 +8,56 @@ import { Cloud, HorizonLine, NightMode, Obstacle, getRandomNum } from '.'
 * @param {number} gapCoefficient
 * @constructor
 */
-export function Horizon(canvas, spritePos, dimensions, gapCoefficient) {
+export function Horizon(
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    canvas: any,
+    spritePos: any,
+    dimensions: any,
+    gapCoefficient: any
+) {
   this.canvas = canvas;
   this.canvasCtx = this.canvas.getContext('2d');
   this.config = Horizon.config;
@@ -50,7 +99,9 @@ Horizon.prototype = {
    */
   init: function () {
       this.addCloud();
+      // @ts-expect-error ts-migrate(2554) FIXME: Expected 18 arguments, but got 2.
       this.horizonLine = new HorizonLine(this.canvas, this.spritePos.HORIZON);
+      // @ts-expect-error ts-migrate(2554) FIXME: Expected 14 arguments, but got 3.
       this.nightMode = new NightMode(this.canvas, this.spritePos.MOON,
           this.dimensions.WIDTH);
   },
@@ -63,7 +114,7 @@ Horizon.prototype = {
    *     ease in section.
    * @param {boolean} showNightMode Night mode activated.
    */
-  update: function (deltaTime, currentSpeed, updateObstacles, showNightMode) {
+  update: function (deltaTime: any, currentSpeed: any, updateObstacles: any, showNightMode: any) {
       this.runningTime += deltaTime;
       this.horizonLine.update(deltaTime, currentSpeed);
       this.nightMode.update(showNightMode);
@@ -79,7 +130,7 @@ Horizon.prototype = {
    * @param {number} deltaTime
    * @param {number} currentSpeed
    */
-  updateClouds: function (deltaTime, speed) {
+  updateClouds: function (deltaTime: any, speed: any) {
       var cloudSpeed = this.cloudSpeed / 1000 * deltaTime * speed;
       var numClouds = this.clouds.length;
 
@@ -98,7 +149,7 @@ Horizon.prototype = {
           }
 
           // Remove expired clouds.
-          this.clouds = this.clouds.filter(function (obj) {
+          this.clouds = this.clouds.filter(function (obj: any) {
               return !obj.remove;
           });
       } else {
@@ -111,7 +162,7 @@ Horizon.prototype = {
    * @param {number} deltaTime
    * @param {number} currentSpeed
    */
-  updateObstacles: function (deltaTime, currentSpeed) {
+  updateObstacles: function (deltaTime: any, currentSpeed: any) {
       // Obstacles, move to Horizon layer.
       var updatedObstacles = this.obstacles.slice(0);
 
@@ -150,7 +201,7 @@ Horizon.prototype = {
    * Add a new obstacle.
    * @param {number} currentSpeed
    */
-  addNewObstacle: function (currentSpeed) {
+  addNewObstacle: function (currentSpeed: any) {
       var obstacleTypeIndex = getRandomNum(0, Obstacle.types.length - 1);
       var obstacleType = Obstacle.types[obstacleTypeIndex];
 
@@ -162,6 +213,7 @@ Horizon.prototype = {
       } else {
           var obstacleSpritePos = this.spritePos[obstacleType.type];
 
+          // @ts-expect-error ts-migrate(2554) FIXME: Expected 23 arguments, but got 7.
           this.obstacles.push(new Obstacle(this.canvasCtx, obstacleType,
               obstacleSpritePos, this.dimensions,
               this.gapCoefficient, currentSpeed, obstacleType.width));
@@ -169,6 +221,7 @@ Horizon.prototype = {
           this.obstacleHistory.unshift(obstacleType.type);
 
           if (this.obstacleHistory.length > 1) {
+              // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
               this.obstacleHistory.splice(Runner.config.MAX_OBSTACLE_DUPLICATION);
           }
       }
@@ -179,13 +232,14 @@ Horizon.prototype = {
    * Maximum duplication is set in config value MAX_OBSTACLE_DUPLICATION.
    * @return {boolean}
    */
-  duplicateObstacleCheck: function (nextObstacleType) {
+  duplicateObstacleCheck: function (nextObstacleType: any) {
       var duplicateCount = 0;
 
       for (var i = 0; i < this.obstacleHistory.length; i++) {
           duplicateCount = this.obstacleHistory[i] == nextObstacleType ?
               duplicateCount + 1 : 0;
       }
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
       return duplicateCount >= Runner.config.MAX_OBSTACLE_DUPLICATION;
   },
 
@@ -204,7 +258,7 @@ Horizon.prototype = {
    * @param {number} width Canvas width.
    * @param {number} height Canvas height.
    */
-  resize: function (width, height) {
+  resize: function (width: any, height: any) {
       this.canvas.width = width;
       this.canvas.height = height;
   },
@@ -213,6 +267,7 @@ Horizon.prototype = {
    * Add a new cloud to the horizon.
    */
   addCloud: function () {
+      // @ts-expect-error ts-migrate(2554) FIXME: Expected 12 arguments, but got 3.
       this.clouds.push(new Cloud(this.canvas, this.spritePos.CLOUD,
           this.dimensions.WIDTH));
   }

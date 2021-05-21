@@ -6,7 +6,58 @@ import { CollisionBox, FPS, IS_HIDPI, getTimeStamp } from '.'
 * @param {Object} spritePos Positioning within image sprite.
 * @constructor
 */
-export function Trex(canvas, spritePos) {
+export function Trex(
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    // @ts-expect-error ts-migrate(2300) FIXME: Duplicate identifier 'this'.
+    this: any,
+    canvas: any,
+    spritePos: any
+) {
   this.canvas = canvas;
   this.canvasCtx = canvas.getContext('2d');
   this.spritePos = spritePos;
@@ -64,14 +115,21 @@ Trex.config = {
 */
 Trex.collisionBoxes = {
   DUCKING: [
+      // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
       new CollisionBox(1, 18, 55, 25)
   ],
   RUNNING: [
+      // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
       new CollisionBox(22, 0, 17, 16),
+      // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
       new CollisionBox(1, 18, 30, 9),
+      // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
       new CollisionBox(10, 35, 14, 8),
+      // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
       new CollisionBox(1, 24, 29, 5),
+      // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
       new CollisionBox(5, 30, 21, 4),
+      // @ts-expect-error ts-migrate(2554) FIXME: Expected 7 arguments, but got 4.
       new CollisionBox(9, 34, 15, 4)
   ]
 };
@@ -130,7 +188,9 @@ Trex.prototype = {
    * Sets the t-rex to blink at random intervals.
    */
   init: function () {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
       this.groundYPos = Runner.defaultDimensions.HEIGHT - this.config.HEIGHT -
+          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
           Runner.config.BOTTOM_PAD;
       this.yPos = this.groundYPos;
       this.minJumpHeight = this.groundYPos - this.config.MIN_JUMP_HEIGHT;
@@ -143,7 +203,7 @@ Trex.prototype = {
    * Setter for the jump velocity.
    * The approriate drop velocity is also set.
    */
-  setJumpVelocity: function (setting) {
+  setJumpVelocity: function (setting: any) {
       this.config.INIITAL_JUMP_VELOCITY = -setting;
       this.config.DROP_VELOCITY = -setting / 2;
   },
@@ -153,14 +213,16 @@ Trex.prototype = {
    * @param {!number} deltaTime
    * @param {Trex.status} status Optional status to switch to.
    */
-  update: function (deltaTime, opt_status) {
+  update: function (deltaTime: any, opt_status: any) {
       this.timer += deltaTime;
 
       // Update the status.
       if (opt_status) {
           this.status = opt_status;
           this.currentFrame = 0;
+          // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           this.msPerFrame = Trex.animFrames[opt_status].msPerFrame;
+          // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           this.currentAnimFrames = Trex.animFrames[opt_status].frames;
 
           if (opt_status == Trex.status.WAITING) {
@@ -200,7 +262,7 @@ Trex.prototype = {
    * @param {number} x
    * @param {number} y
    */
-  draw: function (x, y) {
+  draw: function (x: any, y: any) {
       var sourceX = x;
       var sourceY = y;
       var sourceWidth = this.ducking && this.status != Trex.status.CRASHED ?
@@ -220,6 +282,7 @@ Trex.prototype = {
 
       // Ducking.
       if (this.ducking && this.status != Trex.status.CRASHED) {
+          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
           this.canvasCtx.drawImage(Runner.imageSprite, sourceX, sourceY,
               sourceWidth, sourceHeight,
               this.xPos, this.yPos,
@@ -230,6 +293,7 @@ Trex.prototype = {
               this.xPos++;
           }
           // Standing / running
+          // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'Runner'.
           this.canvasCtx.drawImage(Runner.imageSprite, sourceX, sourceY,
               sourceWidth, sourceHeight,
               this.xPos, this.yPos,
@@ -248,7 +312,7 @@ Trex.prototype = {
    * Make t-rex blink at random intervals.
    * @param {number} time Current time in milliseconds.
    */
-  blink: function (time) {
+  blink: function (time: any) {
       var deltaTime = time - this.animStartTime;
 
       if (deltaTime >= this.blinkDelay) {
@@ -267,7 +331,7 @@ Trex.prototype = {
    * Initialise a jump.
    * @param {number} speed
    */
-  startJump: function (speed) {
+  startJump: function (speed: any) {
       if (!this.jumping) {
           this.update(0, Trex.status.JUMPING);
           // Tweak the jump velocity based on the speed.
@@ -293,7 +357,8 @@ Trex.prototype = {
    * @param {number} deltaTime
    * @param {number} speed
    */
-  updateJump: function (deltaTime, speed) {
+  updateJump: function (deltaTime: any, speed: any) {
+      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       var msPerFrame = Trex.animFrames[this.status].msPerFrame;
       var framesElapsed = deltaTime / msPerFrame;
 
@@ -337,7 +402,7 @@ Trex.prototype = {
   /**
    * @param {boolean} isDucking.
    */
-  setDuck: function (isDucking) {
+  setDuck: function (isDucking: any) {
       if (isDucking && this.status != Trex.status.DUCKING) {
           this.update(0, Trex.status.DUCKING);
           this.ducking = true;
