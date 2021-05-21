@@ -5,7 +5,7 @@
 * @param {Object} spritePos Position of image in sprite.
 * @param {number} containerWidth
 */
-function Cloud(canvas, spritePos, containerWidth) {
+export function Cloud(canvas, spritePos, containerWidth) {
   this.canvas = canvas;
   this.canvasCtx = this.canvas.getContext('2d');
   this.spritePos = spritePos;

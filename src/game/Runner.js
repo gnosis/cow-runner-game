@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 // extract from chromium source code by @liuwayong
 
-'use strict';
 /**
  * T-Rex runner.
  * @param {string} outerContainerId Outer containing element id.
@@ -11,7 +10,7 @@
  * @constructor
  * @export
  */
-function Runner(outerContainerId, opt_config) {
+export function Runner(outerContainerId, opt_config) {
     // Singleton
     if (Runner.instance_) {
         return Runner.instance_;

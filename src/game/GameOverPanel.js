@@ -6,7 +6,7 @@
  * @param {!Object} dimensions Canvas dimensions.
  * @constructor
  */
- function GameOverPanel(canvas, textImgPos, restartImgPos, dimensions) {
+ export function GameOverPanel(canvas, textImgPos, restartImgPos, dimensions) {
   this.canvas = canvas;
   this.canvasCtx = canvas.getContext('2d');
   this.canvasDimensions = dimensions;

@@ -7,7 +7,7 @@
 * @param {Object} spritePos Positioning within image sprite.
 * @constructor
 */
-function Trex(canvas, spritePos) {
+export function Trex(canvas, spritePos) {
   this.canvas = canvas;
   this.canvasCtx = canvas.getContext('2d');
   this.spritePos = spritePos;

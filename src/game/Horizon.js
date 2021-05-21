@@ -6,7 +6,7 @@
 * @param {number} gapCoefficient
 * @constructor
 */
-function Horizon(canvas, spritePos, dimensions, gapCoefficient) {
+export function Horizon(canvas, spritePos, dimensions, gapCoefficient) {
   this.canvas = canvas;
   this.canvasCtx = this.canvas.getContext('2d');
   this.config = Horizon.config;

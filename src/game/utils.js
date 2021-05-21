@@ -6,7 +6,7 @@
  *    collision boxes.
  * @return {Array<CollisionBox>}
  */
- function checkForCollision(obstacle, tRex, opt_canvasCtx) {
+ export function checkForCollision(obstacle, tRex, opt_canvasCtx) {
   var obstacleBoxXPos = Runner.defaultDimensions.WIDTH + obstacle.xPos;
 
   // Adjustments are made to the bounding box as there is a 1 pixel white
@@ -65,7 +65,7 @@
 * @param {!CollisionBox} adjustment Adjustment box.
 * @return {CollisionBox} The adjusted collision box object.
 */
-function createAdjustedCollisionBox(box, adjustment) {
+export function createAdjustedCollisionBox(box, adjustment) {
   return new CollisionBox(
       box.x + adjustment.x,
       box.y + adjustment.y,
@@ -77,7 +77,7 @@ function createAdjustedCollisionBox(box, adjustment) {
 /**
 * Draw the collision boxes for debug.
 */
-function drawCollisionBoxes(canvasCtx, tRexBox, obstacleBox) {
+export function drawCollisionBoxes(canvasCtx, tRexBox, obstacleBox) {
   canvasCtx.save();
   canvasCtx.strokeStyle = '#f00';
   canvasCtx.strokeRect(tRexBox.x, tRexBox.y, tRexBox.width, tRexBox.height);
@@ -95,7 +95,7 @@ function drawCollisionBoxes(canvasCtx, tRexBox, obstacleBox) {
 * @param {CollisionBox} obstacleBox
 * @return {boolean} Whether the boxes intersected.
 */
-function boxCompare(tRexBox, obstacleBox) {
+export function boxCompare(tRexBox, obstacleBox) {
   var crashed = false;
   var tRexBoxX = tRexBox.x;
   var tRexBoxY = tRexBox.y;
@@ -121,7 +121,7 @@ function boxCompare(tRexBox, obstacleBox) {
  * @param {number} max
  * @param {number}
  */
- function getRandomNum(min, max) {
+ export function getRandomNum(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -130,7 +130,7 @@ function boxCompare(tRexBox, obstacleBox) {
 * Vibrate on mobile devices.
 * @param {number} duration Duration of the vibration in milliseconds.
 */
-function vibrate(duration) {
+export function vibrate(duration) {
   if (IS_MOBILE && window.navigator.vibrate) {
       window.navigator.vibrate(duration);
   }
@@ -145,7 +145,7 @@ function vibrate(duration) {
 * @param {string} opt_classname
 * @return {HTMLCanvasElement}
 */
-function createCanvas(container, width, height, opt_classname) {
+export function createCanvas(container, width, height, opt_classname) {
   var canvas = document.createElement('canvas');
   canvas.className = opt_classname ? Runner.classes.CANVAS + ' ' +
       opt_classname : Runner.classes.CANVAS;
@@ -161,7 +161,7 @@ function createCanvas(container, width, height, opt_classname) {
 * Decodes the base 64 audio to ArrayBuffer used by Web Audio.
 * @param {string} base64String
 */
-function decodeBase64ToArrayBuffer(base64String) {
+export function decodeBase64ToArrayBuffer(base64String) {
   var len = (base64String.length / 4) * 3;
   var str = atob(base64String);
   var arrayBuffer = new ArrayBuffer(len);
@@ -178,6 +178,6 @@ function decodeBase64ToArrayBuffer(base64String) {
 * Return the current timestamp.
 * @return {number}
 */
-function getTimeStamp() {
+export function getTimeStamp() {
   return IS_IOS ? new Date().getTime() : performance.now();
 }

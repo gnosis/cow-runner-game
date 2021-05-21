@@ -5,7 +5,7 @@
 * @param {number} canvasWidth
 * @constructor
 */
-function DistanceMeter(canvas, spritePos, canvasWidth) {
+export function DistanceMeter(canvas, spritePos, canvasWidth) {
   this.canvas = canvas;
   this.canvasCtx = canvas.getContext('2d');
   this.image = Runner.imageSprite;

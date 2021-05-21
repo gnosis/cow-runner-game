@@ -5,7 +5,7 @@
 * @param {Object} spritePos Horizon position in sprite.
 * @constructor
 */
-function HorizonLine(canvas, spritePos) {
+export function HorizonLine(canvas, spritePos) {
   this.spritePos = spritePos;
   this.canvas = canvas;
   this.canvasCtx = canvas.getContext('2d');

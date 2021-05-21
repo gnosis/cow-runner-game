@@ -1,7 +1,7 @@
 /**
 * Nightmode shows a moon and stars on the horizon.
 */
-function NightMode(canvas, spritePos, containerWidth) {
+export function NightMode(canvas, spritePos, containerWidth) {
   this.spritePos = spritePos;
   this.canvas = canvas;
   this.canvasCtx = canvas.getContext('2d');

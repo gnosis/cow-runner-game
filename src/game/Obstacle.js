@@ -9,7 +9,7 @@
  * @param {number} speed
  * @param {number} opt_xOffset
  */
- function Obstacle(canvasCtx, type, spriteImgPos, dimensions,
+ export function Obstacle(canvasCtx, type, spriteImgPos, dimensions,
   gapCoefficient, speed, opt_xOffset) {
 
   this.canvasCtx = canvasCtx;
