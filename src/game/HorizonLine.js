@@ -1,3 +1,5 @@
+import { IS_HIDPI } from '.'
+
 /**
 * Horizon Line.
 * Consists of two connecting lines. Randomly assigns a flat / bumpy horizon.

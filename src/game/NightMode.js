@@ -1,3 +1,5 @@
+import { getRandomNum, IS_HIDPI } from '.'
+
 /**
 * Nightmode shows a moon and stars on the horizon.
 */

@@ -1,3 +1,5 @@
+import { IS_HIDPI } from '.'
+
 /**
 * Handles displaying the distance meter.
 * @param {!HTMLCanvasElement} canvas

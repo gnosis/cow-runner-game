@@ -1,4 +1,4 @@
-import { CollisionBox } from '.'
+import { CollisionBox, FPS, IS_HIDPI, getTimeStamp } from '.'
 
 /**
 * T-rex game character.

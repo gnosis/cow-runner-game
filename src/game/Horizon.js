@@ -1,4 +1,4 @@
-import { Cloud } from '.'
+import { Cloud, HorizonLine, NightMode, Obstacle } from '.'
 
 /**
 * Horizon background class.

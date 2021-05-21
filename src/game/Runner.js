@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 // extract from chromium source code by @liuwayong
 
-import { createCanvas, Horizon, DEFAULT_WIDTH, FPS, IS_HIDPI } from '.'
+import { createCanvas, Horizon, DistanceMeter, Trex, GameOverPanel, DEFAULT_WIDTH, FPS, IS_HIDPI, IS_MOBILE, IS_IOS, getTimeStamp } from '.'
 
 /**
  * T-Rex runner.

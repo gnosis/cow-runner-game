@@ -1,3 +1,5 @@
+import { IS_IOS } from '.'
+
 /**
  * Check for a collision.
  * @param {!Obstacle} obstacle
