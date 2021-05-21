@@ -8,7 +8,7 @@
   ],
   "repository": "git@github.com:anxolin/cow-runner-game.git",
   "scripts": {
-    "start": "NODE_ENV=development webpack serve --config-name web",
+    "start": "NODE_ENV=development webpack serve -- --config-name web",
     "build": "npm run build:lib",
     "build:web": "NODE_ENV=production webpack --config-name web",
     "build:lib": "NODE_ENV=production webpack --config-name lib",
@@ -19,10 +19,14 @@
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.2",
     "@babel/preset-react": "^7.13.13",
+    "@types/react": "^17.0.6",
     "babel-loader": "8.2.2",
     "css-loader": "5.2.5",
     "html-webpack-plugin": "^5.3.1",
     "style-loader": "2.0.0",
+    "ts-loader": "^9.2.1",
+    "typescript": "^4.2.4",
+    "ts-migrate": "^0.1.19",
     "webpack": "5.37.1",
     "webpack-cli": "4.7.0",
     "webpack-dev-server": "3.11.2"
