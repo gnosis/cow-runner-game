@@ -1,5 +1,6 @@
 'use strict';
 
+import 'game/main.css'
 import { Runner } from 'game'
 
 
