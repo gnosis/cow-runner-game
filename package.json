@@ -1,5 +1,5 @@
 {
-  "name": "@anxolin/cow-runner-game",
+  "name": "@gnosis/cow-runner-game",
   "version": "0.1.5",
   "description": "Cow runner game",
   "main": "dist/lib.js",
