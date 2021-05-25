@@ -42,5 +42,8 @@
   "peerDependencies": {
     "react": "^16.X",
     "react-dom": "^16.X"
+  },
+  "resolutions": {
+    "multicast-dns": "^7.2.3"
   }
 }
