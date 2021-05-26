@@ -50,7 +50,7 @@ export class Runner {
     this.playing = false; // Whether the game is currently in play state.
     this.crashed = false;
     this.paused = false;
-    this.inverted = false;
+    this.inverted = true; // actives Night mode / Shows stars and the moon
     this.invertTimer = 0;
     this.resizeTimerId_ = null;
 
