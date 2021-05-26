@@ -1,4 +1,4 @@
-## Cow Runner Game - React
+## Cow Runner Game - React component
 
 The trex runner game extracted from chrome offline error page, but with less dinosaurs and more Cows!
 
@@ -17,6 +17,29 @@ Changes over the original:
 
 > 🏗 Pending to add the sprites and styles for the cow game.
 
+# Usage
+Add dependency to your project:
+```bash
+yarn add @gnosis.pm/cow-runner-game
+```
+
+Use the `CowGame` react component:
+```tsx
+import { CowGame } from '@gnosis.pm/cow-runner-game'
+
+export default function Your () {
+  return (
+    <div>
+      <h1>Cow Game</h1>
+      <p>Try not to get 🥪</p>
+
+      <CowGame />
+    </div>
+  )
+}
+```
+
+# Development
 ## Install dependencies
 ```bash
 yarn
@@ -27,12 +50,9 @@ yarn
 yarn start
 ```
 
-## Build library
+# Build library
 ```bash
 yarn build
 ```
 
-## Build web
-```bash
-yarn build:web
-```
+
