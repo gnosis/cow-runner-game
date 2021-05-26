@@ -3,7 +3,7 @@
 The trex runner game extracted from chrome offline error page, but with less dinosaurs and more Cows!
 
 <p align="center">
-  <img src="docs/demo.gif">
+  <img src="https://github.com/gnosis/cow-runner-game/raw/main/docs/demo.gif">
 </p>
 
 This project is a typescript library that provides `CowGame` as a react component.
