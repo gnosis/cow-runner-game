@@ -31,7 +31,7 @@ export function CowGame() {
   const hideMessageBox = () => setShowMessageBox(false);
 
   // Desktop/non-touch device: Key binding to hide message box
-  !!IS_MOBILE && useKeyPress(["Space", "ArrowUp"], hideMessageBox);
+  !IS_MOBILE && useKeyPress(["Space", "ArrowUp"], hideMessageBox);
 
   // Mobile/touch device: On touch start hide message box
   const messageBox = document.getElementById("main-cowgame");
