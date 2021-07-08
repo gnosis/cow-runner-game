@@ -60,7 +60,7 @@ export function CowGame() {
         ref={runGameRef}
       >
         <div id="main-content">
-          <div className="icon icon-offline"></div>
+          <div className="icon icon-offline"/>
         </div>
         <div id="offline-resources">
           {/* <img id="offline-resources-1x" src={sprites1x} /> */}
