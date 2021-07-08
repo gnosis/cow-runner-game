@@ -51,7 +51,6 @@ export function CowGame() {
       {showMessageBox && (
         <div id="messageBox" className="sendmessage">
           <h1 style={STYLES}>🐮 {startTitle} 🐮</h1>
-          <div className="niokbutton" onClick={hideMessageBox}></div>
         </div>
       )}
 
