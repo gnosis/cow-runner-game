@@ -16,28 +16,33 @@ const STYLES: CSSProperties = {
 export function CowGame() {
   const [showMessageBox, setShowMessageBox] = useState(true);
 
-  // Run game when main frame is mounted
-  const runGameRef = useCallback((node) => {
-    if (node !== null) {
-      console.log("🐮🐮 Loading Cow Runner 🐮🐮");
-
-      // Boot runner
-      const runner = new Runner(".interstitial-wrapper", undefined);
-      console.log("Runner", runner);
-    }
-  }, []);
-
   // Hide box when pressing Space
   const hideMessageBox = () => setShowMessageBox(false);
 
+  // Run game when main frame is mounted
+  const runGameRef = useCallback(
+    (node) => {
+      if (node !== null) {
+        console.log("🐮🐮 Loading Cow Runner 🐮🐮");
+
+        // Boot runner
+        const runner = new Runner(".interstitial-wrapper", undefined);
+        console.log("Runner", runner);
+
+        // Mobile/touch device: On touch start hide message box
+        // Element doesnt exist until game is initialized
+        const messageBox = document.getElementById("main-cowgame");
+
+        if (IS_MOBILE && messageBox) {
+          messageBox.addEventListener("touchstart", hideMessageBox, false);
+        }
+      }
+    },
+    [hideMessageBox]
+  );
+
   // Desktop/non-touch device: Key binding to hide message box
   !IS_MOBILE && useKeyPress(["Space", "ArrowUp"], hideMessageBox);
-
-  // Mobile/touch device: On touch start hide message box
-  const messageBox = document.getElementById("main-cowgame");
-  if (IS_MOBILE && messageBox) {
-    messageBox.addEventListener("touchstart", hideMessageBox, false);
-  }
 
   const startTitle = IS_MOBILE ? "Tap to start" : "Press Space to start";
 
