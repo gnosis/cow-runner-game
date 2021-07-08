@@ -12,6 +12,7 @@ export const FPS = 60;
 // export const IS_HIDPI = window.devicePixelRatio > 1;
 export const IS_HIDPI = true
 export const IS_IOS = /iPad|iPhone|iPod/.test(window.navigator.platform);
-export const IS_MOBILE = /Android/.test(window.navigator.userAgent) || IS_IOS;
+export const IS_ANDROID = /Android/.test(window.navigator.userAgent);
 export const IS_TOUCH_ENABLED = 'ontouchstart' in window;
+export const IS_MOBILE = IS_TOUCH_ENABLED;
  

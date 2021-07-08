@@ -6,6 +6,7 @@ import useKeyPress from "./hooks/useKeyPress";
 import sprites2x from "./assets/default_200_percent/200-offline-sprite.png";
 
 import { Runner } from "./model/Runner";
+import { IS_MOBILE } from "./model/const";
 
 const STYLES: CSSProperties = {
   textAlign: "center",
@@ -28,13 +29,23 @@ export function CowGame() {
 
   // Hide box when pressing Space
   const hideMessageBox = () => setShowMessageBox(false);
-  useKeyPress(["Space", "ArrowUp"], hideMessageBox);
+
+  // Desktop/non-touch device: Key binding to hide message box
+  !!IS_MOBILE && useKeyPress(["Space", "ArrowUp"], hideMessageBox);
+
+  // Mobile/touch device: On touch start hide message box
+  const messageBox = document.getElementById("main-cowgame");
+  if (IS_MOBILE && messageBox) {
+    messageBox.addEventListener("touchstart", hideMessageBox, false);
+  }
+
+  const startTitle = IS_MOBILE ? "Tap to start" : "Press Space to start";
 
   return (
-    <>
+    <div id="main-cowgame">
       {showMessageBox && (
         <div id="messageBox" className="sendmessage">
-          <h1 style={STYLES}>🐮 Press Space to start 🐮</h1>
+          <h1 style={STYLES}>🐮 {startTitle} 🐮</h1>
           <div className="niokbutton" onClick={hideMessageBox}></div>
         </div>
       )}
@@ -66,6 +77,6 @@ export function CowGame() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
