@@ -1,4 +1,4 @@
-import React, { useState, useCallback, CSSProperties } from "react";
+import React, { useState, useEffect, CSSProperties } from "react";
 
 import "./CowGame.css";
 import useKeyPress from "./hooks/useKeyPress";
