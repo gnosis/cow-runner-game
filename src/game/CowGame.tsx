@@ -7,6 +7,7 @@ import sprites2x from "./assets/default_200_percent/200-offline-sprite.png";
 
 import { Runner } from "./model/Runner";
 import { IS_MOBILE } from "./model/const";
+import { devLog } from "./utils";
 
 const STYLES: CSSProperties = {
   textAlign: "center",
@@ -20,11 +21,11 @@ export function CowGame() {
   const hideMessageBox = () => setShowMessageBox(false);
 
   useEffect(() => {
-    console.log("🐮🐮 Loading Cow Runner 🐮🐮");
+    devLog("🐮🐮 Loading Cow Runner 🐮🐮");
 
     // Boot runner
     const runner = new Runner(".interstitial-wrapper", undefined);
-    console.log("Runner", runner);
+    devLog("Runner", runner);
 
     // Mobile/touch device: On touch start hide message box
     // Element doesnt exist until game is initialized
@@ -35,6 +36,7 @@ export function CowGame() {
     }
 
     return () => {
+      messageBox.removeEventListener("touchstart", hideMessageBox)
       runner.destroy();
     };
   }, [hideMessageBox]);
