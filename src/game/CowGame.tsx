@@ -19,27 +19,25 @@ export function CowGame() {
   // Hide box when pressing Space
   const hideMessageBox = () => setShowMessageBox(false);
 
-  // Run game when main frame is mounted
-  const runGameRef = useCallback(
-    (node) => {
-      if (node !== null) {
-        console.log("🐮🐮 Loading Cow Runner 🐮🐮");
+  useEffect(() => {
+    console.log("🐮🐮 Loading Cow Runner 🐮🐮");
 
-        // Boot runner
-        const runner = new Runner(".interstitial-wrapper", undefined);
-        console.log("Runner", runner);
+    // Boot runner
+    const runner = new Runner(".interstitial-wrapper", undefined);
+    console.log("Runner", runner);
 
-        // Mobile/touch device: On touch start hide message box
-        // Element doesnt exist until game is initialized
-        const messageBox = document.getElementById("main-cowgame");
+    // Mobile/touch device: On touch start hide message box
+    // Element doesnt exist until game is initialized
+    const messageBox = document.getElementById("main-cowgame");
 
-        if (IS_MOBILE && messageBox) {
-          messageBox.addEventListener("touchstart", hideMessageBox, false);
-        }
-      }
-    },
-    [hideMessageBox]
-  );
+    if (IS_MOBILE && messageBox) {
+      messageBox.addEventListener("touchstart", hideMessageBox, false);
+    }
+
+    return () => {
+      runner.destroy();
+    };
+  }, [hideMessageBox]);
 
   // Desktop/non-touch device: Key binding to hide message box
   !IS_MOBILE && useKeyPress(["Space", "ArrowUp"], hideMessageBox);
@@ -57,10 +55,9 @@ export function CowGame() {
       <div
         id="main-frame-error"
         className="interstitial-wrapper"
-        ref={runGameRef}
       >
         <div id="main-content">
-          <div className="icon icon-offline"/>
+          <div className="icon icon-offline" />
         </div>
         <div id="offline-resources">
           {/* <img id="offline-resources-1x" src={sprites1x} /> */}
