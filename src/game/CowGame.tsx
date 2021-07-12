@@ -39,7 +39,7 @@ export function CowGame() {
       messageBox.removeEventListener("touchstart", hideMessageBox)
       runner.destroy();
     };
-  }, [hideMessageBox]);
+  }, []);
 
   // Desktop/non-touch device: Key binding to hide message box
   !IS_MOBILE && useKeyPress(["Space", "ArrowUp"], hideMessageBox);
@@ -54,10 +54,7 @@ export function CowGame() {
         </div>
       )}
 
-      <div
-        id="main-frame-error"
-        className="interstitial-wrapper"
-      >
+      <div id="main-frame-error" className="interstitial-wrapper">
         <div id="main-content">
           <div className="icon icon-offline" />
         </div>
