@@ -202,6 +202,15 @@ export class Runner {
     LOAD: 'load'
   };
 
+  /**
+   * Stops the game, clears container and clears game instance
+   */
+  destroy() {
+    this.stop();
+    this.stopListening();
+    this.containerEl = null;
+    Runner.instance_ = null;
+  }
 
   /**
      * Whether the easter egg has been disabled. CrOS enterprise enrolled devices.
