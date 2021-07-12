@@ -36,7 +36,7 @@ export function CowGame() {
     }
 
     return () => {
-      messageBox.removeEventListener("touchstart", hideMessageBox);
+      messageBox.removeEventListener("touchstart", hideMessageBox)
       runner.destroy();
     };
   }, []);
