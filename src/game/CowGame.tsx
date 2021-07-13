@@ -48,11 +48,9 @@ export function CowGame() {
 
   return (
     <div id="main-cowgame">
-      {showMessageBox && (
-        <div id="messageBox" className="sendmessage">
-          <h1 style={STYLES}>🐮 {startTitle} 🐮</h1>
-        </div>
-      )}
+      <div id="messageBox" className="sendmessage" style={{ display: showMessageBox ? 'block' : 'none' }}>
+        <h1 style={STYLES}>🐮 {startTitle} 🐮</h1>
+      </div>
 
       <div id="main-frame-error" className="interstitial-wrapper">
         <div id="main-content">
