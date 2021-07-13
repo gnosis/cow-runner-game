@@ -12,6 +12,8 @@ import { devLog } from "./utils";
 const STYLES: CSSProperties = {
   textAlign: "center",
   fontFamily: "Open Sans, sans-serif",
+  margin: 0, 
+  height: 0,
 };
 
 export function CowGame() {
@@ -48,7 +50,7 @@ export function CowGame() {
 
   return (
     <div id="main-cowgame">
-      <div id="messageBox" className="sendmessage" style={{ display: showMessageBox ? 'block' : 'none' }}>
+      <div id="messageBox" className="sendmessage" style={{ visibility: showMessageBox ? 'visible' : 'hidden' }}>
         <h1 style={STYLES}>🐮 {startTitle} 🐮</h1>
       </div>
 
